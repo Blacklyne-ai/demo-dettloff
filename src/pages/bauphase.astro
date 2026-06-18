@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Gallery from '../components/Gallery.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { copy } from '../data/site';
+
+const schritte = [
+  { icon: 'Ruler', title: 'Planung', text: 'Gemeinsam legen wir Lage, Form und Technik fest – abgestimmt auf Ihren Garten.' },
+  { icon: 'Shovel', title: 'Aushub', text: 'Die Grube entsteht, sauber ausgehoben und vorbereitet für das Becken.' },
+  { icon: 'HardHat', title: 'Bau', text: 'Becken, Technik und Anschlüsse – Schritt für Schritt, mit höchsten Qualitätsstandards.' },
+  { icon: 'WavesLadder', title: 'Wasser marsch', text: 'Umrandung, Feinschliff und Befüllung – aus dem Garten wird eine Wohlfühloase.' },
+];
+---
+<Layout title="Bauphase" description="Exklusive Einblicke in laufende Pool-Bauprojekte von Schwimmbadtechnik Dettloff – Schritt für Schritt vom Aushub bis zur fertigen Wohlfühloase.">
+  <PageHero
+    eyebrow="So entsteht Ihr Pool"
+    titleHtml='Aus einer Idee wird ein <em class="italic text-aqua-ink">Pool-Paradies.</em>'
+    intro={copy.bauphase}
+  />
+
+  <!-- Schritte -->
+  <section class="bg-white py-16 sm:py-20">
+    <div class="wrap grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {schritte.map((s, i) => (
+        <div class="card p-6" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+          <div class="flex items-center gap-3">
+            <span class="grid h-11 w-11 place-items-center rounded-2xl bg-aqua-tint text-aqua-ink"><Icon name={s.icon} size={22} /></span>
+            <span class="text-sm font-semibold text-muted">Schritt {i + 1}</span>
+          </div>
+          <h2 class="mt-4 text-xl font-semibold text-ink">{s.title}</h2>
+          <p class="mt-2 leading-relaxed text-ink-soft">{s.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Galerie -->
+  <section class="bg-paper py-16 sm:py-20">
+    <div class="wrap">
+      <h2 class="mb-10 max-w-2xl font-display text-3xl font-semibold tracking-tightish sm:text-4xl" data-reveal>
+        Echte Einblicke in laufende Bauprojekte.
+      </h2>
+      <Gallery set="bauphase" eager={3} />
+    </div>
+  </section>
+
+  <CtaBand title="Wird Ihr Garten der nächste Pool?" />
+</Layout>

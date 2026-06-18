@@ -1,0 +1,74 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Gallery from '../components/Gallery.astro';
+import CtaBand from '../components/CtaBand.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Icon from '../components/Icon.astro';
+
+const phasen = [
+  { icon: 'Ruler', title: 'Planung', text: 'Wir schauen uns Ihren Garten an und planen den Pool, der zu Ihnen passt – Form, Lage und Technik aus einer Hand.' },
+  { icon: 'WavesLadder', title: 'Bau', text: 'Vom Aushub bis zum letzten Stein am Beckenrand bauen wir mit Sorgfalt und festen Qualitätsstandards.' },
+  { icon: 'Wrench', title: 'Wartung', text: 'Auch nach dem ersten Sprung ins Wasser bleiben wir Ihr Ansprechpartner – für Pflege und Service.' },
+];
+---
+<Layout title="Poolbau" description="Maßgeschneiderter Poolbau von Schwimmbadtechnik Dettloff – von der Planung über den Bau bis zur Wartung. Seit 1994 in Bestensee bei Berlin.">
+  <PageHero
+    eyebrow="Poolbau"
+    titleHtml='Ihr Pool – maßgeschneidert <em class="italic text-aqua-ink">geplant und gebaut.</em>'
+    intro="Mit langjähriger Erfahrung und einem Team aus Experten bieten wir Ihnen alles, was Sie für Ihren perfekten Pool benötigen – von der Planung über den Bau bis hin zur Wartung."
+  />
+
+  <!-- Phasen -->
+  <section class="bg-white py-16 sm:py-24">
+    <div class="wrap">
+      <SectionHeading title="Von der ersten Idee bis zum klaren Wasser" />
+      <div class="mt-12 grid gap-5 md:grid-cols-3">
+        {phasen.map((p, i) => (
+          <div class="card p-7" data-reveal style={`--reveal-delay:${i * 90}ms`}>
+            <span class="grid h-12 w-12 place-items-center rounded-2xl bg-aqua-tint text-aqua-ink"><Icon name={p.icon} size={24} /></span>
+            <h3 class="mt-5 text-xl font-semibold text-ink">{p.title}</h3>
+            <p class="mt-2 leading-relaxed text-ink-soft">{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- maßgeschneidert -->
+  <section class="bg-shell py-16 sm:py-24">
+    <div class="wrap grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div class="overflow-hidden rounded-3xl shadow-lift" data-reveal>
+        <img src="/images/projekte/projekt-11.webp" alt="Maßgeschneiderter Pool von Schwimmbadtechnik Dettloff"
+             loading="lazy" width="1165" height="1022" class="aspect-[5/4] w-full object-cover" />
+      </div>
+      <div data-reveal style="--reveal-delay:100ms">
+        <h2 class="text-3xl font-semibold tracking-tightish sm:text-4xl">Kein Pool wie der andere.</h2>
+        <p class="mt-5 text-lg leading-relaxed text-ink-soft">
+          Hochwertige Materialien, durchdachte Designs und maßgeschneiderte Lösungen –
+          jedes Projekt ist einzigartig und perfekt auf die Wünsche unserer Kunden
+          abgestimmt. Ob ruhige Schwimmbahn oder luxuriöse Pool-Landschaft: Wir bauen
+          den Pool, der zu Ihrem Garten passt.
+        </p>
+        <div class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-ink">
+          {[['Award','Erfahrung seit 1994'],['MapPin','Berlin & Brandenburg'],['ShieldCheck','Qualität vom Fachmann']].map(([icon,label])=>(
+            <span class="inline-flex items-center gap-2 font-medium"><Icon name={icon} size={18} class="text-aqua-ink" /> {label}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Referenzen-Teaser -->
+  <section class="bg-paper py-16 sm:py-24">
+    <div class="wrap">
+      <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+        <SectionHeading title="Schon gebaut: echte Pools" intro="Ein paar unserer realisierten Projekte aus der Region." />
+        <a href="/projekte" class="btn btn-ghost inline-flex shrink-0 self-start sm:self-auto">Alle Projekte <Icon name="ArrowRight" size={18} /></a>
+      </div>
+      <div class="mt-10"><Gallery set="projekte" limit={6} /></div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>

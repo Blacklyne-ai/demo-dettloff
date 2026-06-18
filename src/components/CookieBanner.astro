@@ -1,0 +1,31 @@
+---
+// DSGVO-Hinweis. Die Seite nutzt KEIN Tracking/Analytics. Einzige Drittquelle
+// (Google Maps) lädt erst nach Klick (siehe MapBlock) – darum schlanker Hinweis.
+---
+<div id="cookieBanner"
+     class="fixed inset-x-3 bottom-3 z-[90] hidden sm:inset-x-auto sm:bottom-5 sm:right-5 sm:max-w-sm"
+     role="dialog" aria-live="polite" aria-label="Datenschutz-Hinweis">
+  <div class="rounded-3xl border border-line bg-white/95 p-5 shadow-lift backdrop-blur">
+    <p class="text-sm leading-relaxed text-ink-soft">
+      Wir verwenden nur technisch notwendige Cookies. Eingebettete Karten von
+      Google Maps werden erst nach Ihrer Zustimmung geladen. Mehr dazu in der
+      <a href="/datenschutz" class="font-medium text-aqua-ink underline underline-offset-2">Datenschutzerklärung</a>.
+    </p>
+    <div class="mt-4 flex items-center gap-3">
+      <button id="cookieAccept" type="button" class="btn btn-primary inline-flex flex-1">Verstanden</button>
+      <a href="/datenschutz" class="text-sm font-medium text-ink-soft hover:text-ink">Details</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const KEY = 'dettloff-cookie-ok';
+  const banner = document.getElementById('cookieBanner');
+  try {
+    if (!localStorage.getItem(KEY)) banner?.classList.remove('hidden');
+  } catch (_) { banner?.classList.remove('hidden'); }
+  document.getElementById('cookieAccept')?.addEventListener('click', () => {
+    try { localStorage.setItem(KEY, '1'); } catch (_) {}
+    banner?.classList.add('hidden');
+  });
+</script>

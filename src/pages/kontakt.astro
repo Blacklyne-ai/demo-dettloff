@@ -1,0 +1,65 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactTiles from '../components/ContactTiles.astro';
+import MapBlock from '../components/MapBlock.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+---
+<Layout title="Kontakt" description="Schwimmbadtechnik Dettloff in Bestensee OT Pätz – Telefon, E-Mail, WhatsApp und Anfahrt. Beratung nach Vereinbarung.">
+  <PageHero
+    eyebrow="Kontakt"
+    titleHtml='Sprechen wir über <em class="italic text-aqua-ink">Ihren Garten.</em>'
+    intro={`Rufen Sie an, schreiben Sie kurz – oder kommen Sie vorbei. ${site.availability}.`}
+  />
+
+  <section class="bg-paper py-16 sm:py-20">
+    <div class="wrap grid gap-10 lg:grid-cols-2 lg:gap-14">
+      <div class="flex flex-col gap-4">
+        <ContactTiles />
+
+        <div class="card p-6" data-reveal>
+          <div class="flex items-start gap-4">
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-aqua-tint text-aqua-ink"><Icon name="MapPin" size={20} /></span>
+            <div>
+              <p class="text-sm text-muted">Adresse</p>
+              <p class="mt-0.5 font-semibold text-ink">{site.name}</p>
+              <p class="text-ink-soft">{site.address.line}</p>
+              <p class="text-ink-soft">{site.address.zip} {site.address.city} {site.address.district}</p>
+            </div>
+          </div>
+          <div class="mt-5 grid gap-4 border-t border-line pt-5 sm:grid-cols-2">
+            <div class="flex items-center gap-3">
+              <Icon name="Clock" size={18} class="text-aqua-ink" />
+              <div>
+                <p class="text-sm text-muted">Erreichbarkeit</p>
+                <p class="font-medium text-ink">{site.availability}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <Icon name="Phone" size={18} class="text-aqua-ink" />
+              <div>
+                <p class="text-sm text-muted">Telefax</p>
+                <p class="font-medium text-ink">{site.fax.display}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-sm leading-relaxed text-muted">
+          Ansprechpartner: {site.owner}. Wir melden uns persönlich zurück und
+          besprechen in Ruhe, was in Ihrem Garten möglich ist.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <MapBlock />
+        <a href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(site.address.line + ', ' + site.address.zip + ' ' + site.address.city)}`}
+           target="_blank" rel="noopener"
+           class="btn btn-ghost inline-flex self-start">
+          <Icon name="MapPin" size={18} /> Route planen
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

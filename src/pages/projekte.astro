@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Gallery from '../components/Gallery.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { copy } from '../data/site';
+---
+<Layout title="Projekte" description="Realisierte Pool-Projekte von Schwimmbadtechnik Dettloff – Pool-Landschaften, Überdachungen und Abdeckungen aus Berlin und Brandenburg.">
+  <PageHero
+    eyebrow="Referenzen"
+    titleHtml='Unsere realisierten <em class="italic text-aqua-ink">Pool-Projekte.</em>'
+    intro={copy.projekte}
+  />
+
+  <section class="bg-paper py-16 sm:py-20">
+    <div class="wrap">
+      <Gallery set="projekte" eager={3} />
+      <p class="mt-10 flex items-center justify-center gap-2 text-center text-sm text-muted">
+        <Icon name="Images" size={16} /> Klicken Sie auf ein Bild für die große Ansicht.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white py-14">
+    <div class="wrap flex flex-col items-start gap-4 rounded-3xl border border-line bg-mist p-8 sm:flex-row sm:items-center sm:justify-between sm:p-10">
+      <div>
+        <h2 class="font-display text-2xl font-semibold text-ink">Neugierig, wie so ein Pool entsteht?</h2>
+        <p class="mt-2 text-ink-soft">Begleiten Sie ein Projekt von der ersten Grube bis zum fertigen Wasser.</p>
+      </div>
+      <a href="/bauphase" class="btn btn-primary inline-flex shrink-0">Zur Bauphase <Icon name="ArrowRight" size={18} /></a>
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>

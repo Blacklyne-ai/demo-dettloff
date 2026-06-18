@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+---
+<Layout title="Datenschutz" description="Datenschutzerklärung von Schwimmbadtechnik Dettloff.">
+  <PageHero title="Datenschutzerklärung" />
+
+  <section class="bg-white py-14 sm:py-20">
+    <div class="wrap">
+      <div class="prose-legal">
+        <p>Stand: Juni 2026</p>
+
+        <h2>1. Verantwortlicher</h2>
+        <p>
+          {site.name}<br />
+          Inhaber: {site.owner}<br />
+          {site.address.line}, {site.address.zip} {site.address.city} {site.address.district}<br />
+          Telefon: <a href={`tel:${site.phone.tel}`}>{site.phone.display}</a><br />
+          E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
+        </p>
+
+        <h2>2. Hosting</h2>
+        <p>
+          Diese Website wird als statische Seite bei Cloudflare Pages (Cloudflare, Inc.)
+          gehostet. Beim Aufruf der Seite verarbeitet der Hoster technisch notwendige
+          Daten (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, abgerufene Datei),
+          um die Auslieferung der Website und deren Sicherheit zu gewährleisten.
+          Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an
+          einem sicheren, zuverlässigen Betrieb).
+        </p>
+
+        <h2>3. Schriftarten</h2>
+        <p>
+          Schriftarten werden lokal von unserem Server geladen. Es besteht dabei
+          <strong>keine Verbindung zu Servern Dritter</strong> (z. B. Google Fonts);
+          es werden keine personenbezogenen Daten an Dritte übertragen.
+        </p>
+
+        <h2>4. Cookies</h2>
+        <p>
+          Wir verwenden nur technisch notwendige Speicherung. Lediglich Ihre
+          Entscheidung zum Datenschutz-Hinweis wird lokal in Ihrem Browser
+          (localStorage) gespeichert, damit der Hinweis nicht erneut erscheint. Es
+          findet kein Tracking und keine Analyse Ihres Verhaltens statt.
+        </p>
+
+        <h2>5. Kontaktaufnahme</h2>
+        <p>
+          Wenn Sie uns per Telefon, Telefax, E-Mail oder WhatsApp kontaktieren, werden
+          Ihre Angaben zur Bearbeitung der Anfrage und für mögliche Anschlussfragen
+          verarbeitet (Art. 6 Abs. 1 lit. b und f DSGVO). Diese Daten geben wir nicht
+          ohne Ihre Einwilligung weiter und löschen sie, sobald sie nicht mehr
+          erforderlich sind.
+        </p>
+
+        <h2>6. WhatsApp</h2>
+        <p>
+          Wenn Sie uns über WhatsApp schreiben, gelten zusätzlich die
+          Datenschutzbestimmungen der WhatsApp Ireland Ltd. / Meta. Bitte nutzen Sie
+          WhatsApp nur, wenn Sie damit einverstanden sind; alternativ erreichen Sie uns
+          jederzeit per Telefon oder E-Mail.
+        </p>
+
+        <h2>7. Google Maps</h2>
+        <p>
+          Auf der Kontaktseite binden wir eine Karte von Google Maps (Google Ireland
+          Ltd.) ein. Die Karte wird <strong>erst nach Ihrem Klick</strong> geladen –
+          vorher werden keine Daten an Google übertragen. Mit dem Laden der Karte können
+          Daten (u. a. Ihre IP-Adresse) an Google übermittelt werden. Mehr dazu:
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.
+          Rechtsgrundlage ist Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO).
+        </p>
+
+        <h2>8. Ihre Rechte</h2>
+        <p>
+          Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der
+          Verarbeitung, Datenübertragbarkeit sowie Widerspruch gegen die Verarbeitung.
+          Eine erteilte Einwilligung können Sie jederzeit mit Wirkung für die Zukunft
+          widerrufen.
+        </p>
+
+        <h2>9. Beschwerderecht</h2>
+        <p>
+          Ihnen steht ein Beschwerderecht bei einer Datenschutz-Aufsichtsbehörde zu, in
+          der Regel an Ihrem üblichen Aufenthaltsort oder am Sitz unseres Unternehmens:
+          Die Landesbeauftragte für den Datenschutz und für das Recht auf
+          Akteneinsicht Brandenburg.
+        </p>
+
+        <h2>10. SSL-/TLS-Verschlüsselung</h2>
+        <p>
+          Diese Seite nutzt aus Sicherheitsgründen eine SSL-/TLS-Verschlüsselung. Eine
+          verschlüsselte Verbindung erkennen Sie am „https://" in der Adresszeile.
+        </p>
+      </div>
+
+      <p class="mt-10 text-sm text-muted">
+        <a href="/impressum" class="text-aqua-ink underline underline-offset-2">Zum Impressum</a>
+      </p>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dettloff-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "/Users/kosta/Kunden/demo-dettloff", "--", "--port", "4423"],
+      "port": 4423
+    }
+  ]
+}

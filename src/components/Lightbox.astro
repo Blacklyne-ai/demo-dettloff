@@ -1,0 +1,60 @@
+---
+// Globale, leichte Lightbox (einmal im Layout). Galerie-Bilder tragen
+// [data-zoom][data-full][data-cap]; das Script sammelt sie seitenweit (Prev/Next/Esc).
+import Icon from './Icon.astro';
+---
+<div id="lightbox" class="fixed inset-0 z-[120] hidden items-center justify-center bg-dark-deep/92 backdrop-blur-sm"
+     role="dialog" aria-modal="true" aria-label="Bildansicht">
+  <button data-lb="close" class="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20" aria-label="Schließen"><Icon name="X" size={22} /></button>
+  <button data-lb="prev" class="absolute left-3 top-1/2 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 sm:left-6" aria-label="Vorheriges Bild"><Icon name="ChevronLeft" size={26} /></button>
+  <button data-lb="next" class="absolute right-3 top-1/2 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 sm:right-6" aria-label="Nächstes Bild"><Icon name="ChevronRight" size={26} /></button>
+  <figure class="mx-4 max-h-[88vh] max-w-5xl">
+    <img id="lbImg" src="" alt="" class="mx-auto max-h-[82vh] w-auto rounded-2xl object-contain shadow-lift" />
+    <figcaption id="lbCap" class="mt-3 text-center text-sm text-white/70"></figcaption>
+  </figure>
+</div>
+
+<script>
+  const box = document.getElementById('lightbox');
+  const img = document.getElementById('lbImg') as HTMLImageElement | null;
+  const cap = document.getElementById('lbCap');
+  if (box && img) {
+    let items: HTMLElement[] = [];
+    let idx = 0;
+    const show = (i: number) => {
+      items = Array.from(document.querySelectorAll('[data-zoom]'));
+      idx = (i + items.length) % items.length;
+      const el = items[idx];
+      img.src = el.getAttribute('data-full') || '';
+      const c = el.getAttribute('data-cap') || '';
+      img.alt = c;
+      if (cap) cap.textContent = c;
+    };
+    const open = (el: HTMLElement) => {
+      items = Array.from(document.querySelectorAll('[data-zoom]'));
+      show(items.indexOf(el));
+      box.classList.remove('hidden');
+      box.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    };
+    const close = () => {
+      box.classList.add('hidden');
+      box.classList.remove('flex');
+      document.body.style.overflow = '';
+    };
+    document.addEventListener('click', (e) => {
+      const z = (e.target as HTMLElement).closest('[data-zoom]');
+      if (z) { e.preventDefault(); open(z as HTMLElement); }
+    });
+    box.querySelector('[data-lb="close"]')?.addEventListener('click', close);
+    box.querySelector('[data-lb="next"]')?.addEventListener('click', (e) => { e.stopPropagation(); show(idx + 1); });
+    box.querySelector('[data-lb="prev"]')?.addEventListener('click', (e) => { e.stopPropagation(); show(idx - 1); });
+    box.addEventListener('click', (e) => { if (e.target === box) close(); });
+    document.addEventListener('keydown', (e) => {
+      if (box.classList.contains('hidden')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowRight') show(idx + 1);
+      if (e.key === 'ArrowLeft') show(idx - 1);
+    });
+  }
+</script>

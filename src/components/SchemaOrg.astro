@@ -1,0 +1,28 @@
+---
+import { site } from '../data/site';
+// LocalBusiness — nur belegte Daten. Keine Öffnungszeiten/Geo/Reviews (unbestätigt).
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'GeneralContractor',
+  name: site.name,
+  description:
+    'Maßgeschneiderte Swimmingpools seit 1994 – Planung, Bau, Wartung und Pool-Abdeckungen.',
+  foundingDate: String(site.founded),
+  url: site.url,
+  image: new URL('/logo.png', site.url).href,
+  telephone: site.phone.tel,
+  faxNumber: site.fax.display,
+  email: site.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.line,
+    postalCode: site.address.zip,
+    addressLocality: `${site.address.city} ${site.address.district}`,
+    addressRegion: site.address.region,
+    addressCountry: site.address.country,
+  },
+  areaServed: ['Berlin', 'Brandenburg'],
+  knowsAbout: ['Poolbau', 'Swimmingpool', 'Pool-Abdeckungen', 'Pool-Überdachungen', 'Poolwartung'],
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />

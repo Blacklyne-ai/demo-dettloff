@@ -1,0 +1,30 @@
+---
+import { site } from '../data/site';
+interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = 'Sprechen wir über Ihren Pool.',
+  text = 'Erzählen Sie uns von Ihrem Garten – wir beraten Sie persönlich, von der ersten Idee bis zur fertigen Wohlfühloase.',
+} = Astro.props;
+---
+<section class="relative overflow-hidden bg-dark text-white">
+  <!-- ruhiges Wasser-Glow, dezent -->
+  <div class="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-aqua/20 blur-3xl"></div>
+  <div class="pointer-events-none absolute -bottom-32 left-0 h-80 w-80 rounded-full bg-aqua/10 blur-3xl"></div>
+  <div class="wrap relative py-16 sm:py-20" data-reveal>
+    <div class="max-w-2xl">
+      <h2 class="text-balance font-display text-3xl font-semibold leading-[1.1] tracking-tightish sm:text-4xl md:text-[2.7rem]">
+        {title}
+      </h2>
+      <p class="mt-4 text-lg leading-relaxed text-white/75">{text}</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a href="/kontakt" class="btn btn-light inline-flex">Beratung anfragen</a>
+        <a href={`tel:${site.phone.tel}`} class="btn btn-on-dark inline-flex">
+          {site.phone.display}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

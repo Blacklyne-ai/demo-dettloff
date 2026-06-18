@@ -1,0 +1,29 @@
+---
+// Zentrale Icon-Hülle. Lucide-Namen sind verifiziert (build-bricht sonst):
+// `Waves` existiert NICHT → `WavesLadder`. Social-Logos = inline SVG (Lucide hat keine).
+import {
+  WavesLadder, ShieldCheck, Images, HardHat, Hammer, Settings, Award,
+  CalendarCheck, Phone, Mail, MapPin, MessageCircle, ArrowRight, ArrowUpRight,
+  MoveRight, Menu, X, Check, CheckCheck, CircleCheckBig, Sparkles, Quote,
+  ChevronRight, ChevronLeft, Layers, Droplets, Droplet, Ruler, Wrench, Shovel,
+  SunMedium, Snowflake, ThermometerSun, Clock, Sun,
+} from '@lucide/astro';
+
+const map: Record<string, any> = {
+  WavesLadder, ShieldCheck, Images, HardHat, Hammer, Settings, Award,
+  CalendarCheck, Phone, Mail, MapPin, MessageCircle, ArrowRight, ArrowUpRight,
+  MoveRight, Menu, X, Check, CheckCheck, CircleCheckBig, Sparkles, Quote,
+  ChevronRight, ChevronLeft, Layers, Droplets, Droplet, Ruler, Wrench, Shovel,
+  SunMedium, Snowflake, ThermometerSun, Clock, Sun,
+};
+
+interface Props {
+  name: string;
+  class?: string;
+  size?: number;
+  strokeWidth?: number;
+}
+const { name, class: className, size = 22, strokeWidth = 1.75 } = Astro.props;
+const Cmp = map[name] ?? Droplet;
+---
+<Cmp class={className} size={size} strokeWidth={strokeWidth} aria-hidden="true" />

@@ -1,0 +1,66 @@
+---
+import { nav, legalNav, site, mapsQuery } from '../data/site';
+import Icon from './Icon.astro';
+const year = 2026;
+---
+<footer class="bg-dark text-white/80">
+  <div class="wrap grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-12">
+    <!-- Brand -->
+    <div class="lg:col-span-4">
+      <div class="inline-flex rounded-2xl bg-white p-3 shadow-soft">
+        <img src="/logo-footer.png" alt={`${site.name} – ${site.claim}`} width="195" height="155" class="h-16 w-auto" />
+      </div>
+      <p class="mt-5 max-w-xs text-[0.95rem] leading-relaxed text-white/70">
+        Maßgeschneiderte Swimmingpools seit {site.founded}. Planung, Bau, Wartung
+        und Pool-Abdeckungen für {site.region}.
+      </p>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="lg:col-span-3" aria-label="Footer-Navigation">
+      <h2 class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-aqua">Seiten</h2>
+      <ul class="mt-4 space-y-2.5 text-[0.95rem]">
+        {nav.map((item) => (
+          <li><a href={item.href} class="text-white/70 transition-colors hover:text-white">{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Kontakt -->
+    <div class="lg:col-span-5">
+      <h2 class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-aqua">Kontakt</h2>
+      <ul class="mt-4 space-y-3 text-[0.95rem]">
+        <li class="flex items-start gap-3">
+          <Icon name="MapPin" size={18} class="mt-0.5 shrink-0 text-aqua" />
+          <a href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`} target="_blank" rel="noopener"
+             class="text-white/80 hover:text-white">
+            {site.address.line}, {site.address.zip} {site.address.city} {site.address.district}
+          </a>
+        </li>
+        <li class="flex items-center gap-3">
+          <Icon name="Phone" size={18} class="shrink-0 text-aqua" />
+          <a href={`tel:${site.phone.tel}`} class="text-white/80 hover:text-white">{site.phone.display}</a>
+        </li>
+        <li class="flex items-center gap-3">
+          <Icon name="Mail" size={18} class="shrink-0 text-aqua" />
+          <a href={`mailto:${site.email}`} class="break-all text-white/80 hover:text-white">{site.email}</a>
+        </li>
+        <li class="flex items-center gap-3 text-white/55">
+          <Icon name="Clock" size={18} class="shrink-0 text-aqua" />
+          {site.availability}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="wrap flex flex-col items-center justify-between gap-3 py-6 text-sm text-white/55 sm:flex-row">
+      <p>© {year} {site.name} · {site.owner}</p>
+      <nav class="flex items-center gap-5" aria-label="Rechtliches">
+        {legalNav.map((item) => (
+          <a href={item.href} class="hover:text-white">{item.label}</a>
+        ))}
+      </nav>
+    </div>
+  </div>
+</footer>

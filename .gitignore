@@ -1,0 +1,17 @@
+# build output
+dist/
+.astro/
+node_modules/
+
+# os / editor
+.DS_Store
+*.log
+
+# Phase-0 raw scrape & staging (bulky / may contain third-party tokens) — NOT for repo
+docs/scrape/
+docs/old-img/
+docs/contact/
+docs/qa/
+docs/**/*.png
+
+# keep: docs/STYLE-GUIDE.md, docs/JUDGEMENT_CALLS.md, scripts/

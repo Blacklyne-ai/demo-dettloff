@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Self-hosted variable fonts (latin), font-display:optional → kein CLS ── */
+@font-face {
+  font-family: 'Manrope Variable';
+  src: url('/fonts/manrope.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Fraunces Variable';
+  src: url('/fonts/fraunces.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Fraunces Variable';
+  src: url('/fonts/fraunces-italic.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: italic;
+  font-display: optional;
+}
+
+/* ── Farb-Tokens (Single Source of Truth, RGB-Triplets) ── */
+:root {
+  --rgb-ink: 15 42 54;        /* #0f2a36 tiefes Teal-Navy */
+  --rgb-ink-soft: 56 82 95;   /* #38525f */
+  --rgb-muted: 94 111 120;    /* #5e6f78 – AA-konform auch bei kleinem Text (≥4.5:1 auf Weiß) */
+  --rgb-paper: 245 250 252;   /* #f5fafc kühles Off-White */
+  --rgb-surface: 255 255 255; /* #ffffff */
+  --rgb-mist: 233 244 250;    /* #e9f4fa Wasser-Tönung */
+  --rgb-shell: 244 239 232;   /* #f4efe8 warmer Stein-Ton */
+  --rgb-line: 215 229 236;    /* #d7e5ec */
+  --rgb-aqua: 0 181 228;      /* #00b5e4 Marke (Wasser) */
+  --rgb-aqua-deep: 0 113 153; /* #007199 Buttons + weiße Schrift, AA */
+  --rgb-aqua-ink: 1 90 124;   /* #015a7c Links/Akzent-Text auf Hell */
+  --rgb-aqua-tint: 228 243 251;/* #e4f3fb helle Fläche */
+  --rgb-red: 193 0 18;        /* #c10012 Marke (Schriftzug Dettloff) */
+  --rgb-red-deep: 154 0 16;   /* #9a0010 */
+  --rgb-dark: 8 37 48;        /* #082530 Ozean-Teal (Footer/CtaBand) */
+  --rgb-dark-deep: 5 26 35;   /* #051a23 */
+  --rgb-dark-soft: 16 52 66;  /* #103442 */
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem; /* sticky-Header-Offset für Anker */
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip; /* dekorative Blur-Blobs dürfen keinen H-Scroll erzeugen (clip bricht sticky nicht) */
+  }
+  h1, h2, h3, h4 {
+    @apply font-display text-ink;
+    font-optical-sizing: auto;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  ::selection { background: rgb(var(--rgb-aqua) / 0.22); color: rgb(var(--rgb-ink)); }
+  :focus-visible {
+    outline: 2px solid rgb(var(--rgb-aqua-deep));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  /* sanftes Anker-Scrollen abschalten, wenn nicht gewünscht */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+}
+
+@layer components {
+  /* Buttons — KEIN display hier setzen (sonst kollidiert es mit hidden/inline-flex
+     Utilities); display wird im Markup als Utility (inline-flex) gesetzt. */
+  .btn {
+    @apply items-center justify-center gap-2 rounded-pill px-6 py-3 text-[0.95rem] font-semibold
+           leading-none transition-all duration-200 ease-out;
+  }
+  .btn-primary {
+    @apply bg-aqua-deep text-white shadow-soft hover:bg-aqua-ink hover:shadow-glow
+           active:translate-y-px;
+  }
+  .btn-ghost {
+    @apply border border-ink/15 bg-white/60 text-ink hover:border-aqua/50 hover:bg-white hover:text-aqua-ink;
+  }
+  .btn-light {
+    @apply bg-white text-ink shadow-soft hover:bg-mist active:translate-y-px;
+  }
+  .btn-on-dark {
+    @apply border border-white/25 text-white hover:bg-white/10 hover:border-white/50;
+  }
+
+  /* Eyebrow — bewusst sparsam (nicht über jeder Headline) */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-aqua-ink;
+  }
+
+  .wrap { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
+
+  .card {
+    @apply rounded-3xl border border-line bg-surface shadow-soft transition-all duration-300;
+  }
+
+  /* dezentes Scroll-Reveal (JS toggelt .is-visible) */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  [data-reveal].is-visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* Legal-Prosa (Impressum/Datenschutz) */
+  .prose-legal { @apply max-w-3xl text-ink-soft leading-relaxed; }
+  .prose-legal h2 { @apply mt-10 mb-3 text-xl font-semibold text-ink; }
+  .prose-legal h3 { @apply mt-6 mb-2 text-base font-semibold text-ink; }
+  .prose-legal p { @apply mb-4; }
+  .prose-legal a { @apply text-aqua-ink underline underline-offset-2 hover:text-aqua-deep; }
+  .prose-legal ul { @apply mb-4 list-disc space-y-1 pl-5; }
+}
+
+/* Masonry-Galerie über CSS columns (kein JS, kein Layout-Shift dank aspect-ratio) */
+.masonry { column-gap: 1rem; }
+@media (min-width: 640px) { .masonry { column-count: 2; } }
+@media (min-width: 1024px) { .masonry { column-count: 3; } }
+.masonry > * { break-inside: avoid; margin-bottom: 1rem; }

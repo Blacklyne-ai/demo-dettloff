@@ -1,0 +1,34 @@
+---
+import { site, mapsQuery } from '../data/site';
+import Icon from './Icon.astro';
+const embed = `https://www.google.com/maps?q=${mapsQuery}&z=14&output=embed`;
+---
+<div class="relative aspect-[16/10] overflow-hidden rounded-3xl border border-line bg-mist sm:aspect-[16/9]">
+  <div id="mapPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
+    <span class="grid h-14 w-14 place-items-center rounded-2xl bg-white text-aqua-ink shadow-soft">
+      <Icon name="MapPin" size={26} />
+    </span>
+    <div>
+      <p class="font-semibold text-ink">{site.address.line}</p>
+      <p class="text-ink-soft">{site.address.zip} {site.address.city} {site.address.district}</p>
+    </div>
+    <button id="mapLoad" type="button" class="btn btn-primary inline-flex">Karte laden</button>
+    <p class="max-w-xs text-xs text-muted">
+      Mit dem Laden akzeptieren Sie die Datenschutzerklärung von Google.
+    </p>
+  </div>
+</div>
+
+<script define:vars={{ embed, label: `Karte: ${site.name}` }}>
+  document.getElementById('mapLoad')?.addEventListener('click', () => {
+    const ph = document.getElementById('mapPlaceholder');
+    if (!ph) return;
+    const f = document.createElement('iframe');
+    f.src = embed;
+    f.title = label;
+    f.loading = 'lazy';
+    f.referrerPolicy = 'no-referrer-when-downgrade';
+    f.className = 'absolute inset-0 h-full w-full border-0';
+    ph.replaceWith(f);
+  });
+</script>

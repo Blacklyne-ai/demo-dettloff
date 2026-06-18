@@ -1,0 +1,30 @@
+---
+import gallery from '../data/gallery.json';
+interface Props {
+  set: 'projekte' | 'abdeckungen' | 'bauphase';
+  limit?: number;
+  eager?: number; // wie viele Bilder eager laden (above the fold)
+}
+const { set, limit, eager = 0 } = Astro.props;
+let items = (gallery as Record<string, any[]>)[set] ?? [];
+if (limit) items = items.slice(0, limit);
+---
+<div class="masonry" data-reveal>
+  {items.map((im, i) => (
+    <figure class="group relative overflow-hidden rounded-2xl bg-mist shadow-soft">
+      <button type="button" data-zoom data-full={im.src} data-cap={im.alt}
+              class="block w-full cursor-zoom-in" aria-label="Bild vergrößern">
+        <img
+          src={im.sm}
+          width={im.w}
+          height={im.h}
+          alt={im.alt}
+          loading={i < eager ? 'eager' : 'lazy'}
+          decoding="async"
+          class="h-auto w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+        />
+        <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-dark/15 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+      </button>
+    </figure>
+  ))}
+</div>
