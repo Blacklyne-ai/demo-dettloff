@@ -27,29 +27,30 @@ const serviceImg: Record<string, string> = {
       sizes="100vw"
       alt="Fertiggestellter Swimmingpool mit klarem türkisem Wasser von Schwimmbadtechnik Dettloff"
       fetchpriority="high"
-      class="absolute inset-0 -z-10 h-full w-full object-cover"
+      data-parallax
+      class="absolute inset-x-0 top-0 -z-10 h-[118%] w-full object-cover"
     />
     <div class="absolute inset-0 -z-10 bg-gradient-to-t from-dark-deep/92 via-dark/55 to-dark/10"></div>
     <div class="absolute inset-0 -z-10 bg-gradient-to-r from-dark-deep/80 via-dark/30 to-transparent"></div>
 
     <div class="wrap pb-16 pt-32 sm:pb-20">
-      <p class="mb-5 inline-flex items-center gap-2 rounded-pill bg-white/15 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-sm ring-1 ring-white/25">
+      <p data-hero class="mb-5 inline-flex items-center gap-2 rounded-pill bg-white/15 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-sm ring-1 ring-white/25">
         <Icon name="Droplet" size={15} /> Maßgeschneiderter Poolbau · Bestensee bei Berlin
       </p>
-      <h1 class="max-w-3xl font-display text-4xl font-semibold leading-[1.05] tracking-tighter text-white [text-shadow:0_2px_24px_rgb(5_26_35/0.45)] sm:text-5xl md:text-6xl">
+      <h1 data-hero-title class="max-w-3xl font-display text-4xl font-semibold leading-[1.05] tracking-tighter text-white [text-shadow:0_2px_24px_rgb(5_26_35/0.45)] sm:text-5xl md:text-6xl">
         Ihr eigener Pool – <em class="italic text-white">geplant, gebaut, gepflegt.</em>
       </h1>
-      <p class="mt-5 max-w-xl text-lg leading-relaxed text-white [text-shadow:0_1px_2px_rgb(5_26_35/0.6),0_2px_20px_rgb(5_26_35/0.5)]">
+      <p data-hero class="mt-5 max-w-xl text-lg leading-relaxed text-white [text-shadow:0_1px_2px_rgb(5_26_35/0.6),0_2px_20px_rgb(5_26_35/0.5)]">
         Maßgeschneiderte Swimmingpools seit {site.founded} – von der ersten Idee in
         Ihrem Garten bis zur fertigen Wohlfühloase.
       </p>
-      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div data-hero class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
         <a href="/kontakt" class="btn btn-light inline-flex">Beratung anfragen</a>
         <a href={`tel:${site.phone.tel}`} class="btn btn-on-dark inline-flex gap-2">
           <Icon name="Phone" size={18} /> {site.phone.display}
         </a>
       </div>
-      <p class="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-white/75">
+      <p data-hero class="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-white/75">
         <span>Seit {site.founded}</span><span class="text-white/35">·</span>
         <span>Inhabergeführt: {site.owner}</span><span class="text-white/35">·</span>
         <span>{site.region}</span>
@@ -105,6 +106,7 @@ const serviceImg: Record<string, string> = {
   <section class="bg-white py-20 sm:py-28">
     <div class="wrap">
       <SectionHeading
+        split
         title="Was wir für Ihren Garten bauen"
         intro="Zwei Dinge können wir besonders gut – und beide hängen am Wasser: ein Pool, der zu Ihnen passt, und die passende Abdeckung dazu."
       />
@@ -140,7 +142,7 @@ const serviceImg: Record<string, string> = {
   <section class="bg-paper py-20 sm:py-28">
     <div class="wrap">
       <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <SectionHeading eyebrow="Referenzen" title="Echte Projekte aus Berlin & Brandenburg"
+        <SectionHeading split eyebrow="Referenzen" title="Echte Projekte aus Berlin & Brandenburg"
           intro="Jedes Projekt ist einzigartig und perfekt auf die Wünsche unserer Kunden abgestimmt – von luxuriösen Pool-Landschaften bis zu stilvollen Überdachungen." />
         <a href="/projekte" class="btn btn-ghost inline-flex shrink-0 self-start sm:self-auto">
           Alle Projekte ansehen <Icon name="ArrowRight" size={18} />

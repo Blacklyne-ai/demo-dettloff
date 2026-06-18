@@ -1,11 +1,24 @@
 ---
 import { nav, site } from '../data/site';
 import Icon from './Icon.astro';
+import ReviewBadge from './ReviewBadge.astro';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) =>
   href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
 ---
 <header class="site-header sticky top-0 z-50 border-b border-line/80 bg-white/80 backdrop-blur-md">
+  <!-- Glas-Trust-/Bewertungsleiste (Desktop) -->
+  <div class="hidden border-b border-line/50 bg-gradient-to-r from-aqua-tint/70 via-white/45 to-white/25 backdrop-blur lg:block">
+    <div class="wrap flex h-9 items-center justify-between">
+      <ReviewBadge variant="bar" />
+      <div class="flex items-center gap-4 text-[0.82rem] text-ink-soft">
+        <span class="inline-flex items-center gap-1.5"><Icon name="Clock" size={14} class="text-aqua-ink" /> {site.availability}</span>
+        <span class="text-line">·</span>
+        <a href={`tel:${site.phone.tel}`} class="inline-flex items-center gap-1.5 font-medium text-ink transition-colors hover:text-aqua-ink"><Icon name="Phone" size={14} /> {site.phone.display}</a>
+      </div>
+    </div>
+  </div>
+
   <div class="wrap flex items-center justify-between gap-4 py-3">
     <a href="/" class="flex shrink-0 items-center" aria-label={`${site.name} – Startseite`}>
       <img src="/logo.png" alt={`${site.name} – ${site.claim}`} width="462" height="107"
@@ -25,10 +38,6 @@ const isActive = (href: string) =>
     </nav>
 
     <div class="hidden items-center gap-3 lg:flex">
-      <a href={`tel:${site.phone.tel}`} class="flex items-center gap-2 text-[0.95rem] font-semibold text-ink transition-colors hover:text-aqua-ink">
-        <Icon name="Phone" size={17} />
-        {site.phone.display}
-      </a>
       <a href="/kontakt" class="btn btn-primary inline-flex">Beratung anfragen</a>
     </div>
 
@@ -43,6 +52,7 @@ const isActive = (href: string) =>
   <!-- Mobile-Panel -->
   <div id="mobileNav" class="hidden border-t border-line bg-white/95 backdrop-blur lg:hidden">
     <nav class="wrap flex flex-col py-3" aria-label="Mobile Navigation">
+      <div class="mb-2 self-start"><ReviewBadge variant="bar" /></div>
       {nav.map((item) => (
         <a
           href={item.href}

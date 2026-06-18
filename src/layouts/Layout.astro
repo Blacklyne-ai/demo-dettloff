@@ -30,6 +30,7 @@ const ogImage = new URL(image, site.url).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -67,24 +68,58 @@ const ogImage = new URL(image, site.url).href;
     <Lightbox />
 
     <script>
-      // dezentes Scroll-Reveal — CSS macht [data-reveal] sichtbar bei .is-visible
-      const els = document.querySelectorAll('[data-reveal]');
+      // ── Cinematic layer: GSAP + Lenis. FOUC-sicher (CSS .js), reduced-motion-safe. ──
+      import { gsap } from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+      import { SplitText } from 'gsap/SplitText';
+      import Lenis from 'lenis';
+
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce || !('IntersectionObserver' in window)) {
-        els.forEach((el) => el.classList.add('is-visible'));
-      } else {
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((e) => {
-              if (e.isIntersecting) {
-                e.target.classList.add('is-visible');
-                io.unobserve(e.target);
-              }
+
+      if (!reduce) {
+        gsap.registerPlugin(ScrollTrigger, SplitText);
+
+        // Lenis Smooth-Scroll, an den GSAP-Ticker gekoppelt
+        const lenis = new Lenis({ duration: 1.05, smoothWheel: true, touchMultiplier: 1.6 });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => lenis.raf(time * 1000));
+        gsap.ticker.lagSmoothing(0);
+
+        // Hero-Entrance — Titel nur per Transform (Opazität bleibt 1 → LCP-sicher)
+        const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+        if (document.querySelector('[data-hero-title]'))
+          heroTl.to('[data-hero-title]', { y: 0, duration: 0.9 }, 0);
+        const heroEls = gsap.utils.toArray('[data-hero]');
+        if (heroEls.length)
+          heroTl.to(heroEls, { y: 0, opacity: 1, duration: 0.7, stagger: 0.1 }, 0.15);
+
+        // Scroll-Reveals (gestaffelt, batch)
+        ScrollTrigger.batch('[data-reveal]', {
+          start: 'top 86%',
+          onEnter: (els) =>
+            gsap.to(els, { opacity: 1, y: 0, duration: 0.7, stagger: 0.09, ease: 'power3.out', overwrite: true }),
+        });
+
+        // SplitText-Headlines (nur unter dem Fold) — erst nach Font-Load splitten
+        const splitRun = () =>
+          gsap.utils.toArray('[data-split]').forEach((el) => {
+            const split = new SplitText(el, { type: 'lines,words', linesClass: 'split-line' });
+            gsap.from(split.words, {
+              yPercent: 115, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.035,
+              scrollTrigger: { trigger: el, start: 'top 85%', once: true },
             });
-          },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.06 }
+          });
+        (document.fonts ? document.fonts.ready : Promise.resolve()).then(splitRun);
+
+        // dezente Hero-Parallax (Bild ist übergroß → Section clippt, kein Rand sichtbar)
+        gsap.utils.toArray('[data-parallax]').forEach((el) =>
+          gsap.to(el, {
+            yPercent: -8, ease: 'none',
+            scrollTrigger: { trigger: el.closest('section') || el, start: 'top top', end: 'bottom top', scrub: true },
+          })
         );
-        els.forEach((el) => io.observe(el));
+
+        window.addEventListener('load', () => ScrollTrigger.refresh());
       }
     </script>
   </body>

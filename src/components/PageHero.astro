@@ -10,13 +10,13 @@ const { eyebrow, title, titleHtml, intro } = Astro.props;
 <section class="relative overflow-hidden border-b border-line bg-gradient-to-b from-mist to-paper">
   <div class="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-aqua/10 blur-3xl"></div>
   <div class="wrap relative pb-14 pt-32 sm:pb-20 sm:pt-36">
-    {eyebrow && <p class="eyebrow mb-3">{eyebrow}</p>}
+    {eyebrow && <p data-hero class="eyebrow mb-3">{eyebrow}</p>}
     {titleHtml ? (
-      <h1 class="max-w-3xl font-display text-4xl font-semibold leading-[1.08] tracking-tighter sm:text-5xl" set:html={titleHtml} />
+      <h1 data-hero-title class="max-w-3xl font-display text-4xl font-semibold leading-[1.08] tracking-tighter sm:text-5xl" set:html={titleHtml} />
     ) : (
-      <h1 class="max-w-3xl font-display text-4xl font-semibold leading-[1.08] tracking-tighter sm:text-5xl">{title}</h1>
+      <h1 data-hero-title class="max-w-3xl font-display text-4xl font-semibold leading-[1.08] tracking-tighter sm:text-5xl">{title}</h1>
     )}
-    {intro && <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-soft">{intro}</p>}
+    {intro && <p data-hero class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-soft">{intro}</p>}
     <slot />
   </div>
 </section>

@@ -4,18 +4,22 @@ interface Props {
   title?: string;
   intro?: string;
   center?: boolean;
+  split?: boolean;
   class?: string;
 }
-const { eyebrow, title, intro, center = false, class: className = '' } = Astro.props;
+const { eyebrow, title, intro, center = false, split = false, class: className = '' } = Astro.props;
 ---
-<div class:list={[center ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl', className]} data-reveal>
-  {eyebrow && <p class="eyebrow mb-3">{eyebrow}</p>}
+<div class:list={[center ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl', className]} data-reveal={split ? undefined : true}>
+  {eyebrow && <p class="eyebrow mb-3" data-reveal={split ? true : undefined}>{eyebrow}</p>}
   {title && (
-    <h2 class="text-balance text-3xl font-semibold leading-[1.1] tracking-tightish sm:text-4xl md:text-[2.6rem]">
+    <h2
+      class="text-balance text-3xl font-semibold leading-[1.1] tracking-tightish sm:text-4xl md:text-[2.6rem]"
+      data-split={split ? true : undefined}
+    >
       {title}
     </h2>
   )}
   <slot name="title" />
-  {intro && <p class="mt-4 text-lg leading-relaxed text-ink-soft">{intro}</p>}
+  {intro && <p class="mt-4 text-lg leading-relaxed text-ink-soft" data-reveal={split ? true : undefined}>{intro}</p>}
   <slot />
 </div>

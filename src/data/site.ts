@@ -32,6 +32,15 @@ export const site = {
   region: 'Berlin · Brandenburg',
   seatShort: 'Bestensee OT Pätz, am Pätzer See',
 
+  // ── Google-Bewertungen (Standard-Konfiguration) ──────────────────────────
+  // Stand Juni 2026: KEIN öffentliches Google-Business-Profil mit Bewertungen
+  // gefunden (nur Das Örtliche 3,5/3 = nicht Google). Sobald ein Profil existiert:
+  //   1. Place-ID (ChIJ…) eintragen, 2. rating + count eintragen.
+  // Dann zeigt der Header-Badge automatisch echte Google-Sterne. NIE erfinden.
+  googlePlaceId: '', // z. B. 'ChIJ...'
+  googleProfileUrl: '', // Maps-/g.page-Profil-URL
+  reviews: { rating: 0, count: 0, source: 'Google' }, // rating>0 ⇒ Sterne-Badge
+
   url: 'https://demo-dettloff.pages.dev',
 } as const;
 
