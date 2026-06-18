@@ -21,20 +21,18 @@ const typen = [
 ---
 <Layout>
   <!-- ───────── HERO (voll, schmilzt unten in die Leinwand) ───────── -->
-  <section data-hero-scrub class="relative isolate flex h-[100svh] items-end overflow-hidden">
-    <div class="absolute inset-0 -z-10">
+  <section class="relative isolate flex min-h-[100svh] items-end overflow-hidden">
+    <div data-parallax class="absolute inset-x-0 top-0 -z-10 h-[118%] w-full">
       <img
-        src="/images/hero/heroA-pool-1280.webp"
-        srcset="/images/hero/heroA-pool-800.webp 800w, /images/hero/heroA-pool-1280.webp 1280w, /images/hero/heroA-pool.webp 1920w"
+        src="/images/hero/hero-still-1280.webp"
+        srcset="/images/hero/hero-still-800.webp 800w, /images/hero/hero-still-1280.webp 1280w, /images/hero/hero-still.webp 1920w"
         sizes="100vw"
-        alt="Fertiggestellter Swimmingpool mit klarem türkisem Wasser von Schwimmbadtechnik Dettloff"
+        alt="Türkises Wasser einer hochwertigen Pool-Anlage"
         fetchpriority="high"
         class="h-full w-full object-cover"
       />
-      {/* TODO Operator: Clip ablegen unter public/videos/hero-pool.webm – für SCROLL-SCRUBBING
-          keyframe-dicht encoden (ffmpeg -g 1), ~4–8 s, < ~3 MB. Lädt NUR auf Desktop; fehlt die
-          Datei, bleibt das Standbild und der Hero wird NICHT gepinnt. */}
-      <video data-hero-video data-src="/videos/hero-pool.webm" muted playsinline preload="none"
+      <!-- Cinematic Hero-Loop (Stock, lizenzfrei Mixkit), nur Desktop; Mobil/reduced-motion = Standbild -->
+      <video data-hero-video data-src="/videos/hero-pool.mp4" muted loop playsinline preload="none"
              aria-hidden="true" class="absolute inset-0 h-full w-full object-cover"></video>
     </div>
     <div class="absolute inset-0 -z-10 bg-gradient-to-t from-dark-deep/92 via-dark/45 to-dark/15"></div>

@@ -105,38 +105,14 @@ const ogImage = new URL(image, site.url).href;
         };
         (document.fonts ? document.fonts.ready : Promise.resolve()).then(heroIntro);
 
-        // Hero-Video als Scroll-Scrubbing: Sektion wird gepinnt, der Scroll-Fortschritt
-        // steuert video.currentTime (vor/zurück). Nur Desktop; Mobil/Reduced-Motion = Standbild.
-        // Ohne ladbaren Clip wird NICHT gepinnt → normaler Hero (kein „eingefrorenes" Scrollen).
+        // Cinematic Hero-Loop: nur Desktop autoplay, blendet weich übers Standbild ein.
+        // Mobil / reduced-motion: kein Video (Standbild = LCP). Kein Scroll-Hijack.
         const hv = document.querySelector('[data-hero-video]');
-        const heroSection = document.querySelector('[data-hero-scrub]');
-        if (hv && hv.dataset.src && heroSection && window.matchMedia('(min-width: 768px)').matches) {
+        if (hv && hv.dataset.src && window.matchMedia('(min-width: 768px)').matches) {
           hv.src = hv.dataset.src;
-          hv.load();
-          hv.addEventListener('loadedmetadata', () => {
-            const dur = isFinite(hv.duration) && hv.duration > 0 ? hv.duration : 6;
-            hv.pause();
-            hv.style.opacity = '1';
-            ScrollTrigger.create({
-              trigger: heroSection,
-              start: 'top top',
-              end: '+=160%',
-              pin: true,
-              scrub: 0.6,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-              onUpdate: (self) => {
-                const t = self.progress * dur;
-                if (isFinite(t)) { try { hv.currentTime = t; } catch (e) {} }
-              },
-            });
-            // Inhalt driftet/fadet dezent, während das Wasser „durchläuft"
-            gsap.to('[data-hero-content]', {
-              yPercent: -14, opacity: 0.12, ease: 'none',
-              scrollTrigger: { trigger: heroSection, start: 'top top', end: '+=160%', scrub: 0.6 },
-            });
-            ScrollTrigger.refresh();
-          });
+          hv.addEventListener('loadeddata', () => { hv.style.opacity = '1'; });
+          const pl = hv.play && hv.play();
+          if (pl && pl.catch) pl.catch(() => {});
         }
 
         // Scroll-Reveals (gestaffelt, batch)
