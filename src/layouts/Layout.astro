@@ -86,13 +86,33 @@ const ogImage = new URL(image, site.url).href;
         gsap.ticker.add((time) => lenis.raf(time * 1000));
         gsap.ticker.lagSmoothing(0);
 
-        // Hero-Entrance — Titel nur per Transform (Opazität bleibt 1 → LCP-sicher)
-        const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        if (document.querySelector('[data-hero-title]'))
-          heroTl.to('[data-hero-title]', { y: 0, duration: 0.9 }, 0);
+        // Hero-Entrance: Homepage = SplitText-Headline, Unterseiten = Transform-Settle.
+        // Erst nach Font-Load splitten (sonst falsche Zeilenumbrüche). Bild bleibt LCP.
         const heroEls = gsap.utils.toArray('[data-hero]');
-        if (heroEls.length)
-          heroTl.to(heroEls, { y: 0, opacity: 1, duration: 0.7, stagger: 0.1 }, 0.15);
+        const heroSplitEl = document.querySelector('[data-hero-split]');
+        const heroTitleEl = document.querySelector('[data-hero-title]');
+        const heroIntro = () => {
+          const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+          if (heroSplitEl) {
+            const s = new SplitText(heroSplitEl, { type: 'lines,words', linesClass: 'split-line' });
+            gsap.set(heroSplitEl, { opacity: 1 });
+            tl.from(s.words, { yPercent: 115, opacity: 0, duration: 0.9, stagger: 0.055 }, 0);
+            if (heroEls.length) tl.to(heroEls, { y: 0, opacity: 1, duration: 0.7, stagger: 0.1 }, 0.5);
+          } else {
+            if (heroTitleEl) tl.to(heroTitleEl, { y: 0, duration: 0.9 }, 0);
+            if (heroEls.length) tl.to(heroEls, { y: 0, opacity: 1, duration: 0.7, stagger: 0.1 }, 0.15);
+          }
+        };
+        (document.fonts ? document.fonts.ready : Promise.resolve()).then(heroIntro);
+
+        // Hero-Video: nur Desktop (Mobil bleibt beim Standbild), blendet ein sobald bereit.
+        const hv = document.querySelector('[data-hero-video]');
+        if (hv && hv.dataset.src && window.matchMedia('(min-width: 768px)').matches) {
+          hv.src = hv.dataset.src;
+          hv.addEventListener('loadeddata', () => { hv.style.opacity = '1'; });
+          const pl = hv.play && hv.play();
+          if (pl && pl.catch) pl.catch(() => {});
+        }
 
         // Scroll-Reveals (gestaffelt, batch)
         ScrollTrigger.batch('[data-reveal]', {

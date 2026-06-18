@@ -21,14 +21,20 @@ const bauImgs = ['bau-03', 'bau-02', 'bau-05', 'bau-08'];
 <Layout>
   <!-- ───────── HERO (voll, schmilzt unten in die Leinwand) ───────── -->
   <section class="relative isolate flex min-h-[100svh] items-end overflow-hidden">
-    <img
-      src="/images/hero/heroA-pool-1280.webp"
-      srcset="/images/hero/heroA-pool-800.webp 800w, /images/hero/heroA-pool-1280.webp 1280w, /images/hero/heroA-pool.webp 1920w"
-      sizes="100vw"
-      alt="Fertiggestellter Swimmingpool mit klarem türkisem Wasser von Schwimmbadtechnik Dettloff"
-      fetchpriority="high" data-parallax
-      class="absolute inset-x-0 top-0 -z-10 h-[118%] w-full object-cover"
-    />
+    <div data-parallax class="absolute inset-x-0 top-0 -z-10 h-[118%] w-full">
+      <img
+        src="/images/hero/heroA-pool-1280.webp"
+        srcset="/images/hero/heroA-pool-800.webp 800w, /images/hero/heroA-pool-1280.webp 1280w, /images/hero/heroA-pool.webp 1920w"
+        sizes="100vw"
+        alt="Fertiggestellter Swimmingpool mit klarem türkisem Wasser von Schwimmbadtechnik Dettloff"
+        fetchpriority="high"
+        class="h-full w-full object-cover"
+      />
+      {/* TODO Operator: Clip ablegen unter public/videos/hero-pool.webm (ruhiges türkises Wasser,
+          ~6–10 s nahtloser Loop, < ~3 MB). Lädt NUR auf Desktop; fehlt die Datei, bleibt das Standbild. */}
+      <video data-hero-video data-src="/videos/hero-pool.webm" muted loop playsinline preload="none"
+             aria-hidden="true" class="absolute inset-0 h-full w-full object-cover"></video>
+    </div>
     <div class="absolute inset-0 -z-10 bg-gradient-to-t from-dark-deep/92 via-dark/45 to-dark/15"></div>
     <div class="absolute inset-0 -z-10 bg-gradient-to-r from-dark-deep/75 via-dark/20 to-transparent"></div>
     <!-- Übergang: Foto schmilzt in die helle Leinwand -->
@@ -38,7 +44,7 @@ const bauImgs = ['bau-03', 'bau-02', 'bau-05', 'bau-08'];
       <p data-hero class="mb-5 inline-flex items-center gap-2 rounded-pill bg-white/15 px-4 py-1.5 text-sm font-medium text-white ring-1 ring-white/25 backdrop-blur-sm">
         <Icon name="Droplet" size={15} /> Maßgeschneiderter Poolbau · Bestensee bei Berlin
       </p>
-      <h1 data-hero-title class="max-w-3xl font-display text-5xl font-semibold leading-[1.02] tracking-tighter text-white [text-shadow:0_2px_24px_rgb(5_26_35/0.45)] sm:text-6xl md:text-7xl">
+      <h1 data-hero-split class="max-w-3xl font-display text-5xl font-semibold leading-[1.02] tracking-tighter text-white [text-shadow:0_2px_24px_rgb(5_26_35/0.45)] sm:text-6xl md:text-7xl">
         Ihr eigener Pool – <em class="italic">geplant, gebaut, gepflegt.</em>
       </h1>
       <p data-hero class="mt-6 max-w-xl text-lg leading-relaxed text-white [text-shadow:0_1px_2px_rgb(5_26_35/0.6),0_2px_20px_rgb(5_26_35/0.5)]">

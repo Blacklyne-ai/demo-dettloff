@@ -136,11 +136,15 @@
      Ohne JS oder bei prefers-reduced-motion bleibt alles sofort sichtbar. */
   html.js [data-reveal] { opacity: 0; transform: translateY(22px); will-change: opacity, transform; }
   html.js [data-hero] { opacity: 0; transform: translateY(18px); }
-  html.js [data-hero-title] { transform: translateY(22px); } /* opazität bleibt 1 → LCP-sicher */
+  html.js [data-hero-title] { transform: translateY(22px); } /* Opazität bleibt 1 → LCP-sicher */
+  html.js [data-hero-split] { opacity: 0; } /* Wörter werden per SplitText eingefadet */
+  /* Hero-Video blendet weich über das Standbild (LCP) ein, sobald bereit */
+  [data-hero-video] { opacity: 0; transition: opacity 1s ease; will-change: opacity; }
   @media (prefers-reduced-motion: reduce) {
     html.js [data-reveal],
     html.js [data-hero],
-    html.js [data-hero-title] { opacity: 1 !important; transform: none !important; }
+    html.js [data-hero-title],
+    html.js [data-hero-split] { opacity: 1 !important; transform: none !important; }
   }
 
   /* Legal-Prosa (Impressum/Datenschutz) */
