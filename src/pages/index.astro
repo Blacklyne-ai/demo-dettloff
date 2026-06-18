@@ -22,18 +22,17 @@ const typen = [
 <Layout>
   <!-- ───────── HERO (voll, schmilzt unten in die Leinwand) ───────── -->
   <section class="relative isolate flex min-h-[100svh] items-end overflow-hidden">
-    <div data-parallax class="absolute inset-x-0 top-0 -z-10 h-[118%] w-full">
+    <div class="absolute inset-0 -z-10 overflow-hidden">
+      <!-- Echtes fertiges Pool-Projekt + Scroll-Zoom -->
       <img
-        src="/images/hero/hero-still-1280.webp"
-        srcset="/images/hero/hero-still-800.webp 800w, /images/hero/hero-still-1280.webp 1280w, /images/hero/hero-still.webp 1920w"
+        data-hero-zoom
+        src="/images/hero/heroB-pool-1280.webp"
+        srcset="/images/hero/heroB-pool-800.webp 800w, /images/hero/heroB-pool-1280.webp 1280w, /images/hero/heroB-pool.webp 1920w"
         sizes="100vw"
-        alt="Türkises Wasser einer hochwertigen Pool-Anlage"
+        alt="Fertiggestellter Swimmingpool im Garten von Schwimmbadtechnik Dettloff"
         fetchpriority="high"
-        class="h-full w-full object-cover"
+        class="h-full w-full origin-center object-cover will-change-transform"
       />
-      <!-- Cinematic Hero-Loop (Stock, lizenzfrei Mixkit), nur Desktop; Mobil/reduced-motion = Standbild -->
-      <video data-hero-video data-src="/videos/hero-pool.mp4" muted loop playsinline preload="none"
-             aria-hidden="true" class="absolute inset-0 h-full w-full object-cover"></video>
     </div>
     <div class="absolute inset-0 -z-10 bg-gradient-to-t from-dark-deep/92 via-dark/45 to-dark/15"></div>
     <div class="absolute inset-0 -z-10 bg-gradient-to-r from-dark-deep/75 via-dark/20 to-transparent"></div>

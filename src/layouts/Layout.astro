@@ -105,14 +105,13 @@ const ogImage = new URL(image, site.url).href;
         };
         (document.fonts ? document.fonts.ready : Promise.resolve()).then(heroIntro);
 
-        // Cinematic Hero-Loop: nur Desktop autoplay, blendet weich übers Standbild ein.
-        // Mobil / reduced-motion: kein Video (Standbild = LCP). Kein Scroll-Hijack.
-        const hv = document.querySelector('[data-hero-video]');
-        if (hv && hv.dataset.src && window.matchMedia('(min-width: 768px)').matches) {
-          hv.src = hv.dataset.src;
-          hv.addEventListener('loadeddata', () => { hv.style.opacity = '1'; });
-          const pl = hv.play && hv.play();
-          if (pl && pl.catch) pl.catch(() => {});
+        // Hero: Scroll-Zoom — Bild zoomt beim Scrollen sanft heran (kein Pin, kein Hijack).
+        const hz = document.querySelector('[data-hero-zoom]');
+        if (hz) {
+          gsap.to(hz, {
+            scale: 1.22, ease: 'none',
+            scrollTrigger: { trigger: hz.closest('section'), start: 'top top', end: 'bottom top', scrub: true },
+          });
         }
 
         // Scroll-Reveals (gestaffelt, batch)
@@ -133,14 +132,6 @@ const ogImage = new URL(image, site.url).href;
           });
         (document.fonts ? document.fonts.ready : Promise.resolve()).then(splitRun);
 
-        // dezente Hero-Parallax (Bild ist übergroß → Section clippt, kein Rand sichtbar)
-        gsap.utils.toArray('[data-parallax]').forEach((el) =>
-          gsap.to(el, {
-            yPercent: -8, ease: 'none',
-            scrollTrigger: { trigger: el.closest('section') || el, start: 'top top', end: 'bottom top', scrub: true },
-          })
-        );
-
         // Feature-Bilder: sanftes Heranzoomen beim Hereinscrollen (Container clippt → kein Rand)
         gsap.utils.toArray('[data-img]').forEach((img) =>
           gsap.fromTo(img, { scale: 1.12 }, {
@@ -149,47 +140,28 @@ const ogImage = new URL(image, site.url).href;
           })
         );
 
-        // Horizontale Projekt-Galerie: nur Desktop pinnen+scrubben (Mobil = nativer Swipe)
-        if (window.matchMedia('(min-width: 1024px)').matches) {
-          gsap.utils.toArray('[data-hscroll]').forEach((section) => {
-            const track = section.querySelector('[data-hstrack]');
-            if (!track) return;
-            track.style.overflow = 'visible'; // GSAP übernimmt das Scrollen (Section clippt)
-            const dist = () => Math.max(0, track.scrollWidth - window.innerWidth + 160);
-            gsap.to(track, {
-              x: () => -dist(),
-              ease: 'none',
-              scrollTrigger: {
-                trigger: section,
-                start: 'top top',
-                end: () => '+=' + dist(),
-                pin: true,
-                scrub: 0.6,
-                anticipatePin: 1,
-                invalidateOnRefresh: true,
-              },
-            });
-          });
-        }
-
-        // BuildStory-Scrollytelling: sticky Panel, pro Schritt das Bild überblenden (nur Desktop)
-        const bsImgs = gsap.utils.toArray('[data-bs-img]');
-        if (bsImgs.length && window.matchMedia('(min-width: 1024px)').matches) {
-          const bsDots = gsap.utils.toArray('[data-bs-dot]');
-          const bsCap = document.querySelector('[data-bs-caption]');
-          const steps = gsap.utils.toArray('[data-bs-step]');
-          const titles = steps.map((s) => (s.querySelector('h3')?.textContent || ''));
-          const setActive = (i) => {
-            bsImgs.forEach((im, j) => gsap.to(im, { opacity: j === i ? 1 : 0, duration: 0.6, overwrite: true }));
-            bsDots.forEach((d, j) => {
+        // Bauphase: kompakte gepinnte Bühne — Scroll scrubbt durch die 4 Phasen (nur Desktop).
+        const bpImgs = gsap.utils.toArray('[data-bp-img]');
+        const bpStage = document.querySelector('.bp-stage');
+        if (bpStage && bpImgs.length && window.matchMedia('(min-width: 1024px)').matches) {
+          const bpSteps = gsap.utils.toArray('[data-bp-step]');
+          const bpDots = gsap.utils.toArray('[data-bp-dot]');
+          const n = bpImgs.length;
+          let cur = -1;
+          const setPhase = (i) => {
+            if (i === cur) return; cur = i;
+            bpImgs.forEach((im, j) => gsap.to(im, { opacity: j === i ? 1 : 0, duration: 0.5, overwrite: true }));
+            bpSteps.forEach((s, j) => gsap.to(s, { opacity: j === i ? 1 : 0, y: j === i ? 0 : 12, duration: 0.5, overwrite: true }));
+            bpDots.forEach((d, j) => {
               d.style.width = j === i ? '2.25rem' : '0.375rem';
               d.classList.toggle('bg-aqua', j === i);
               d.classList.toggle('bg-white/30', j !== i);
             });
-            if (bsCap) bsCap.textContent = titles[i] || '';
           };
-          steps.forEach((step, i) => {
-            ScrollTrigger.create({ trigger: step, start: 'top center', end: 'bottom center', onEnter: () => setActive(i), onEnterBack: () => setActive(i) });
+          ScrollTrigger.create({
+            trigger: bpStage, start: 'top top', end: '+=' + (n * 55) + '%',
+            pin: true, scrub: true, anticipatePin: 1, invalidateOnRefresh: true,
+            onUpdate: (self) => setPhase(Math.min(n - 1, Math.floor(self.progress * n))),
           });
         }
 

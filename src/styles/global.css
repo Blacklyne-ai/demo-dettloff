@@ -132,8 +132,6 @@
   html.js [data-hero] { opacity: 0; transform: translateY(18px); }
   html.js [data-hero-title] { transform: translateY(22px); } /* Opazität bleibt 1 → LCP-sicher */
   html.js [data-hero-split] { opacity: 0; } /* Wörter werden per SplitText eingefadet */
-  /* Hero-Video blendet weich über das Standbild (LCP) ein, sobald bereit */
-  [data-hero-video] { opacity: 0; transition: opacity 1s ease; will-change: opacity; }
   @media (prefers-reduced-motion: reduce) {
     html.js [data-reveal],
     html.js [data-hero],
@@ -206,16 +204,16 @@ html.lenis, html.lenis body { height: auto; }
 .hstrip { display: flex; gap: 1.5rem; overflow-x: auto; scrollbar-width: none; }
 .hstrip::-webkit-scrollbar { height: 0; }
 
-/* BuildStory: Sticky-Medienpanel (Desktop) ↔ Inline-Bilder (Mobil / reduced-motion) */
-.bs-sticky { display: none; }
-.bs-inline-img { display: block; }
+/* Bauphase-Bühne: gepinnt (Desktop) ↔ vertikale Liste (Mobil / reduced-motion) */
+.bp-stage { display: none; }
+.bp-list { display: block; }
 @media (min-width: 1024px) {
-  .bs-sticky { display: block; }
-  .bs-inline-img { display: none; }
+  .bp-stage { display: block; }
+  .bp-list { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bs-sticky { display: none !important; }
-  .bs-inline-img { display: block !important; }
+  .bp-stage { display: none !important; }
+  .bp-list { display: block !important; }
 }
 @media (max-width: 1023px) {
   .hstrip { scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 0.75rem; }
