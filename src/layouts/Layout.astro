@@ -119,6 +119,14 @@ const ogImage = new URL(image, site.url).href;
           })
         );
 
+        // Feature-Bilder: sanftes Heranzoomen beim Hereinscrollen (Container clippt → kein Rand)
+        gsap.utils.toArray('[data-img]').forEach((img) =>
+          gsap.fromTo(img, { scale: 1.12 }, {
+            scale: 1, ease: 'none',
+            scrollTrigger: { trigger: img, start: 'top bottom', end: 'top 40%', scrub: true },
+          })
+        );
+
         window.addEventListener('load', () => ScrollTrigger.refresh());
       }
     </script>
