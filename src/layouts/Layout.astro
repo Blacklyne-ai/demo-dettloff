@@ -56,6 +56,7 @@ const ogImage = new URL(image, site.url).href;
     <SchemaOrg />
   </head>
   <body>
+    <div class="page-canvas" aria-hidden="true"></div>
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-pill focus:bg-ink focus:px-4 focus:py-2 focus:text-white">
       Zum Inhalt springen
     </a>
@@ -126,6 +127,29 @@ const ogImage = new URL(image, site.url).href;
             scrollTrigger: { trigger: img, start: 'top bottom', end: 'top 40%', scrub: true },
           })
         );
+
+        // Horizontale Projekt-Galerie: nur Desktop pinnen+scrubben (Mobil = nativer Swipe)
+        if (window.matchMedia('(min-width: 1024px)').matches) {
+          gsap.utils.toArray('[data-hscroll]').forEach((section) => {
+            const track = section.querySelector('[data-hstrack]');
+            if (!track) return;
+            track.style.overflow = 'visible'; // GSAP übernimmt das Scrollen (Section clippt)
+            const dist = () => Math.max(0, track.scrollWidth - window.innerWidth + 160);
+            gsap.to(track, {
+              x: () => -dist(),
+              ease: 'none',
+              scrollTrigger: {
+                trigger: section,
+                start: 'top top',
+                end: () => '+=' + dist(),
+                pin: true,
+                scrub: 0.6,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+              },
+            });
+          });
+        }
 
         window.addEventListener('load', () => ScrollTrigger.refresh());
       }

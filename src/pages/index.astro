@@ -1,254 +1,197 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import Gallery from '../components/Gallery.astro';
+import HorizontalProjects from '../components/HorizontalProjects.astro';
 import ContactTiles from '../components/ContactTiles.astro';
 import MapBlock from '../components/MapBlock.astro';
-import CtaBand from '../components/CtaBand.astro';
-import { site, services, copy } from '../data/site';
+import { site, copy } from '../data/site';
 
-const abdeckungstypen = [
-  { icon: 'ShieldCheck', name: 'Rolladenabdeckungen', note: 'Robust und sicher.' },
-  { icon: 'ThermometerSun', name: 'Thermoplane', note: 'Isolierend, hält die Wärme.' },
-  { icon: 'Layers', name: 'Lamellenabdeckungen', note: 'Stilvoll und langlebig.' },
+const phasen = [
+  { icon: 'Ruler', title: 'Planung', text: 'Wir schauen uns Ihren Garten an und planen Form, Lage und Technik.' },
+  { icon: 'WavesLadder', title: 'Bau', text: 'Vom Aushub bis zum Beckenrand – sorgfältig, aus einer Hand.' },
+  { icon: 'Wrench', title: 'Wartung', text: 'Auch danach Ihr Ansprechpartner – für Pflege und Service.' },
 ];
-const serviceImg: Record<string, string> = {
-  pools: '/images/projekte/projekt-12.webp',
-  'pool-abdeckungen': '/images/abdeckungen/abdeckung-02.webp',
-};
+const typen = [
+  { icon: 'ShieldCheck', name: 'Rolladen', note: 'Robust & sicher' },
+  { icon: 'ThermometerSun', name: 'Thermoplane', note: 'Hält die Wärme' },
+  { icon: 'Layers', name: 'Lamellen', note: 'Stilvoll & langlebig' },
+];
+const bauImgs = ['bau-03', 'bau-02', 'bau-05', 'bau-08'];
 ---
 <Layout>
-  <!-- ───────── HERO ───────── -->
-  <section class="relative isolate flex min-h-[88vh] items-end overflow-hidden">
+  <!-- ───────── HERO (voll, schmilzt unten in die Leinwand) ───────── -->
+  <section class="relative isolate flex min-h-[100svh] items-end overflow-hidden">
     <img
       src="/images/hero/heroA-pool-1280.webp"
       srcset="/images/hero/heroA-pool-800.webp 800w, /images/hero/heroA-pool-1280.webp 1280w, /images/hero/heroA-pool.webp 1920w"
       sizes="100vw"
       alt="Fertiggestellter Swimmingpool mit klarem türkisem Wasser von Schwimmbadtechnik Dettloff"
-      fetchpriority="high"
-      data-parallax
+      fetchpriority="high" data-parallax
       class="absolute inset-x-0 top-0 -z-10 h-[118%] w-full object-cover"
     />
-    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-dark-deep/92 via-dark/55 to-dark/10"></div>
-    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-dark-deep/80 via-dark/30 to-transparent"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-dark-deep/92 via-dark/45 to-dark/15"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-dark-deep/75 via-dark/20 to-transparent"></div>
+    <!-- Übergang: Foto schmilzt in die helle Leinwand -->
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-paper to-transparent sm:h-48"></div>
 
-    <div class="wrap pb-16 pt-32 sm:pb-20">
-      <p data-hero class="mb-5 inline-flex items-center gap-2 rounded-pill bg-white/15 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-sm ring-1 ring-white/25">
+    <div class="wrap pb-20 pt-32 sm:pb-28">
+      <p data-hero class="mb-5 inline-flex items-center gap-2 rounded-pill bg-white/15 px-4 py-1.5 text-sm font-medium text-white ring-1 ring-white/25 backdrop-blur-sm">
         <Icon name="Droplet" size={15} /> Maßgeschneiderter Poolbau · Bestensee bei Berlin
       </p>
-      <h1 data-hero-title class="max-w-3xl font-display text-4xl font-semibold leading-[1.05] tracking-tighter text-white [text-shadow:0_2px_24px_rgb(5_26_35/0.45)] sm:text-5xl md:text-6xl">
-        Ihr eigener Pool – <em class="italic text-white">geplant, gebaut, gepflegt.</em>
+      <h1 data-hero-title class="max-w-3xl font-display text-5xl font-semibold leading-[1.02] tracking-tighter text-white [text-shadow:0_2px_24px_rgb(5_26_35/0.45)] sm:text-6xl md:text-7xl">
+        Ihr eigener Pool – <em class="italic">geplant, gebaut, gepflegt.</em>
       </h1>
-      <p data-hero class="mt-5 max-w-xl text-lg leading-relaxed text-white [text-shadow:0_1px_2px_rgb(5_26_35/0.6),0_2px_20px_rgb(5_26_35/0.5)]">
+      <p data-hero class="mt-6 max-w-xl text-lg leading-relaxed text-white [text-shadow:0_1px_2px_rgb(5_26_35/0.6),0_2px_20px_rgb(5_26_35/0.5)]">
         Maßgeschneiderte Swimmingpools seit {site.founded} – von der ersten Idee in
         Ihrem Garten bis zur fertigen Wohlfühloase.
       </p>
       <div data-hero class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
         <a href="/kontakt" class="btn btn-light inline-flex">Beratung anfragen</a>
-        <a href={`tel:${site.phone.tel}`} class="btn btn-on-dark inline-flex gap-2">
-          <Icon name="Phone" size={18} /> {site.phone.display}
-        </a>
+        <a href={`tel:${site.phone.tel}`} class="btn btn-on-dark inline-flex gap-2"><Icon name="Phone" size={18} /> {site.phone.display}</a>
       </div>
-      <p data-hero class="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-white/75">
-        <span>Seit {site.founded}</span><span class="text-white/35">·</span>
-        <span>Inhabergeführt: {site.owner}</span><span class="text-white/35">·</span>
-        <span>{site.region}</span>
-      </p>
     </div>
   </section>
 
-  <!-- ───────── WILLKOMMEN ───────── -->
-  <section class="bg-paper py-20 sm:py-28">
-    <div class="wrap grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+  <!-- ───────── INTRO / Willkommen (bleeding image rechts) ───────── -->
+  <section class="relative py-24 sm:py-32">
+    <div class="wrap grid items-center gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
       <div data-reveal>
         <p class="eyebrow mb-3">{copy.welcomeLead}</p>
-        <h2 class="text-3xl font-semibold leading-[1.12] tracking-tightish sm:text-4xl">
-          Seit {site.founded} verwirklichen wir den
-          <span class="italic text-aqua-ink">Traum vom eigenen Swimmingpool.</span>
+        <h2 data-split class="font-display text-4xl font-semibold leading-[1.08] tracking-tighter sm:text-5xl">
+          Seit {site.founded} verwirklichen wir den Traum vom eigenen Swimmingpool.
         </h2>
-        <p class="mt-5 text-lg leading-relaxed text-ink-soft">{copy.welcomeBody}</p>
-        <ul class="mt-7 grid gap-3 sm:grid-cols-2">
-          {[
-            ['Ruler', 'Individuelle Planung'],
-            ['WavesLadder', 'Bau aus einer Hand'],
-            ['Wrench', 'Wartung & Service'],
-            ['Award', 'Erfahrung seit 1994'],
-          ].map(([icon, label]) => (
-            <li class="flex items-center gap-3 text-ink">
-              <span class="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-aqua-tint text-aqua-ink">
-                <Icon name={icon} size={18} />
-              </span>
-              <span class="font-medium">{label}</span>
-            </li>
+        <p class="mt-6 text-lg leading-relaxed text-ink-soft">{copy.welcomeBody}</p>
+        <div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+          {[['Award', '30+ Jahre'], ['MapPin', 'Berlin · Brandenburg'], ['ShieldCheck', 'inhabergeführt']].map(([icon, label]) => (
+            <span class="inline-flex items-center gap-2 font-medium text-ink"><Icon name={icon} size={18} class="text-aqua-ink" /> {label}</span>
           ))}
-        </ul>
-      </div>
-      <div class="relative" data-reveal style="--reveal-delay:120ms">
-        <img
-          src="/images/hero/heroB-pool-1280.webp"
-          srcset="/images/hero/heroB-pool-800.webp 800w, /images/hero/heroB-pool-1280.webp 1280w"
-          sizes="(min-width:1024px) 46vw, 100vw"
-          width="1280" height="1018"
-          alt="Großzügiger Pool im Garten unter blauem Himmel – Projekt von Schwimmbadtechnik Dettloff"
-          loading="lazy"
-          class="aspect-[5/4] w-full rounded-3xl object-cover shadow-lift"
-        />
-        <div class="absolute -bottom-5 -left-5 hidden rounded-2xl border-l-4 border-red bg-white px-5 py-4 shadow-lift sm:block">
-          <p class="font-display text-2xl font-semibold text-ink">seit <span class="text-aqua-ink">1994</span></p>
-          <p class="text-sm text-muted">Qualität nur vom Fachmann</p>
         </div>
+      </div>
+      <div data-reveal class="relative overflow-hidden rounded-3xl shadow-lift">
+        <img src="/images/hero/heroB-pool-1280.webp" srcset="/images/hero/heroB-pool-800.webp 800w, /images/hero/heroB-pool-1280.webp 1280w"
+             sizes="(min-width:1024px) 52vw, 100vw" width="1280" height="1018" loading="lazy" data-img
+             alt="Großzügiger Pool im Garten unter blauem Himmel" class="aspect-[5/4] w-full object-cover lg:aspect-[4/3]" />
       </div>
     </div>
   </section>
 
-  <!-- ───────── LEISTUNGEN ───────── -->
-  <section class="bg-white py-20 sm:py-28">
+  <!-- ───────── POOLBAU (woven, kein Kasten) ───────── -->
+  <section class="relative py-12 sm:py-16">
     <div class="wrap">
-      <SectionHeading
-        split
-        title="Was wir für Ihren Garten bauen"
-        intro="Zwei Dinge können wir besonders gut – und beide hängen am Wasser: ein Pool, der zu Ihnen passt, und die passende Abdeckung dazu."
-      />
-      <div class="mt-12 grid gap-6 md:grid-cols-2">
-        {services.map((s) => (
-          <a href={s.href} class="card group overflow-hidden hover:-translate-y-1 hover:shadow-lift" data-reveal>
-            <div class="relative aspect-[16/10] overflow-hidden">
-              <img src={serviceImg[s.slug]} alt={s.title} loading="lazy" width="1100" height="688"
-                   class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.05]" />
+      <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between" data-reveal>
+        <h2 class="max-w-xl font-display text-3xl font-semibold leading-[1.1] tracking-tightish sm:text-4xl">
+          Von der ersten Idee bis zum <span class="italic text-aqua-ink">klaren Wasser.</span>
+        </h2>
+        <a href="/pools" class="inline-flex items-center gap-1.5 font-semibold text-aqua-ink hover:gap-2.5 transition-all">Mehr zum Poolbau <Icon name="ArrowRight" size={18} /></a>
+      </div>
+      <div class="mt-12 grid gap-px overflow-hidden rounded-3xl bg-line/60 sm:grid-cols-3" data-reveal>
+        {phasen.map((p, i) => (
+          <div class="bg-paper/80 p-8 backdrop-blur">
+            <div class="flex items-center gap-3">
+              <span class="font-display text-2xl font-semibold text-aqua/50">0{i + 1}</span>
+              <span class="grid h-10 w-10 place-items-center rounded-2xl bg-aqua-tint text-aqua-ink"><Icon name={p.icon} size={20} /></span>
             </div>
-            <div class="p-7">
-              <div class="flex items-center gap-3">
-                <span class="grid h-11 w-11 place-items-center rounded-2xl bg-aqua-tint text-aqua-ink">
-                  <Icon name={s.icon} size={22} />
-                </span>
-                <div>
-                  <h3 class="text-xl font-semibold text-ink">{s.title}</h3>
-                  <p class="text-sm text-muted">{s.tagline}</p>
-                </div>
-              </div>
-              <p class="mt-4 leading-relaxed text-ink-soft">{s.blurb}</p>
-              <span class="mt-5 inline-flex items-center gap-1.5 font-semibold text-aqua-ink">
-                Mehr erfahren <Icon name="ArrowRight" size={18} class="transition-transform group-hover:translate-x-1" />
-              </span>
-            </div>
-          </a>
+            <h3 class="mt-4 text-xl font-semibold text-ink">{p.title}</h3>
+            <p class="mt-2 leading-relaxed text-ink-soft">{p.text}</p>
+          </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ───────── PROJEKTE (das Herz) ───────── -->
-  <section class="bg-paper py-20 sm:py-28">
-    <div class="wrap">
-      <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <SectionHeading split eyebrow="Referenzen" title="Echte Projekte aus Berlin & Brandenburg"
-          intro="Jedes Projekt ist einzigartig und perfekt auf die Wünsche unserer Kunden abgestimmt – von luxuriösen Pool-Landschaften bis zu stilvollen Überdachungen." />
-        <a href="/projekte" class="btn btn-ghost inline-flex shrink-0 self-start sm:self-auto">
-          Alle Projekte ansehen <Icon name="ArrowRight" size={18} />
-        </a>
-      </div>
-      <div class="mt-12">
-        <Gallery set="projekte" limit={6} />
-      </div>
-    </div>
-  </section>
+  <!-- ───────── PROJEKTE: horizontaler Durchlauf ───────── -->
+  <HorizontalProjects />
 
-  <!-- ───────── BAUPHASE (Differenzierer) ───────── -->
-  <section class="bg-dark py-20 text-white sm:py-28">
-    <div class="wrap grid items-start gap-12 lg:grid-cols-12 lg:gap-16">
-      <div class="lg:col-span-5" data-reveal>
-        <p class="eyebrow mb-3 text-aqua">So entsteht Ihr Pool</p>
-        <h2 class="font-display text-3xl font-semibold leading-[1.12] tracking-tightish sm:text-4xl">
-          Vom ersten Spatenstich bis zum ersten Sprung ins Wasser.
-        </h2>
-        <p class="mt-5 text-lg leading-relaxed text-white/75">{copy.bauphase}</p>
-        <div class="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-white/80">
-          {[['Ruler','Planung'],['Shovel','Aushub'],['HardHat','Bau'],['WavesLadder','Wasser marsch']].map(([icon,label])=>(
-            <span class="inline-flex items-center gap-2"><Icon name={icon} size={18} class="text-aqua" /> {label}</span>
-          ))}
+  <!-- ───────── DUNKLE TAUCH-ZONE: Bauphase + Abdeckungen ───────── -->
+  <section class="dark-flow relative">
+    <div class="wrap py-32 sm:py-44">
+      <!-- so entsteht Ihr Pool -->
+      <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+        <div data-reveal>
+          <p class="eyebrow mb-3 text-aqua">So entsteht Ihr Pool</p>
+          <h2 data-split class="font-display text-4xl font-semibold leading-[1.06] tracking-tighter sm:text-5xl">
+            Vom ersten Spatenstich bis zum ersten Sprung ins Wasser.
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-white/75">{copy.bauphase}</p>
+          <div class="mt-8 flex flex-wrap gap-x-7 gap-y-3 text-white/85">
+            {[['Ruler', 'Planung'], ['Shovel', 'Aushub'], ['HardHat', 'Bau'], ['WavesLadder', 'Wasser marsch']].map(([icon, label]) => (
+              <span class="inline-flex items-center gap-2"><Icon name={icon} size={18} class="text-aqua" /> {label}</span>
+            ))}
+          </div>
+          <a href="/bauphase" class="btn btn-on-dark mt-9 inline-flex">Einblicke in die Bauphase <Icon name="ArrowRight" size={18} /></a>
         </div>
-        <a href="/bauphase" class="btn btn-on-dark mt-8 inline-flex">Einblicke in die Bauphase <Icon name="ArrowRight" size={18} /></a>
-      </div>
-      <div class="lg:col-span-7">
-        <Gallery set="bauphase" limit={4} />
-      </div>
-    </div>
-  </section>
-
-  <!-- ───────── POOL-ABDECKUNGEN ───────── -->
-  <section class="bg-white py-20 sm:py-28">
-    <div class="wrap grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-      <div class="relative order-2 lg:order-1" data-reveal>
-        <img src="/images/abdeckungen/abdeckung-07.webp" width="1100" height="800" loading="lazy"
-             alt="Beleuchtete Pool-Überdachung am Abend von Schwimmbadtechnik Dettloff"
-             class="aspect-[4/3] w-full rounded-3xl object-cover shadow-lift" />
-      </div>
-      <div class="order-1 lg:order-2" data-reveal>
-        <p class="eyebrow mb-3">Pool-Abdeckungen & Überdachungen</p>
-        <h2 class="text-3xl font-semibold leading-[1.12] tracking-tightish sm:text-4xl">
-          Weniger Pflege, mehr Wärme, mehr Sicherheit.
-        </h2>
-        <p class="mt-5 text-lg leading-relaxed text-ink-soft">{copy.abdeckungen}</p>
-        <div class="mt-7 grid gap-3 sm:grid-cols-3">
-          {abdeckungstypen.map((t) => (
-            <div class="rounded-2xl border border-line bg-paper p-4">
-              <Icon name={t.icon} size={22} class="text-aqua-ink" />
-              <p class="mt-2 font-semibold text-ink">{t.name}</p>
-              <p class="text-sm text-muted">{t.note}</p>
+        <div class="grid grid-cols-2 gap-4" data-reveal>
+          {bauImgs.map((b, i) => (
+            <div class:list={['overflow-hidden rounded-2xl shadow-lift', i % 2 ? 'mt-8' : '']}>
+              <img src={`/images/bauphase/${b}.webp`} alt="Pool-Bauphase – Schwimmbadtechnik Dettloff" loading="lazy" width="1100" height="800" data-img class="aspect-[4/3] w-full object-cover" />
             </div>
           ))}
         </div>
-        <a href="/pool-abdeckungen" class="btn btn-primary mt-8 inline-flex">Zu den Pool-Abdeckungen <Icon name="ArrowRight" size={18} /></a>
+      </div>
+
+      <!-- und gut geschützt -->
+      <div class="mt-28 grid items-center gap-12 lg:grid-cols-2 lg:gap-20 sm:mt-36">
+        <div class="order-2 overflow-hidden rounded-3xl shadow-lift lg:order-1" data-reveal>
+          <img src="/images/abdeckungen/abdeckung-07.webp" alt="Beleuchtete Pool-Überdachung am Abend" loading="lazy" width="1100" height="800" data-img class="aspect-[4/3] w-full object-cover" />
+        </div>
+        <div class="order-1 lg:order-2" data-reveal>
+          <p class="eyebrow mb-3 text-aqua">Pool-Abdeckungen & Überdachungen</p>
+          <h2 class="font-display text-4xl font-semibold leading-[1.06] tracking-tighter sm:text-5xl">Und dann gut geschützt – bei jedem Wetter.</h2>
+          <p class="mt-6 text-lg leading-relaxed text-white/75">{copy.abdeckungen}</p>
+          <div class="mt-8 grid gap-3 sm:grid-cols-3">
+            {typen.map((t) => (
+              <div class="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10 backdrop-blur">
+                <Icon name={t.icon} size={22} class="text-aqua" />
+                <p class="mt-2 font-semibold text-white">{t.name}</p>
+                <p class="text-sm text-white/60">{t.note}</p>
+              </div>
+            ))}
+          </div>
+          <a href="/pool-abdeckungen" class="btn btn-light mt-9 inline-flex">Zu den Pool-Abdeckungen <Icon name="ArrowRight" size={18} /></a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ───────── SEIT 1994 / ÜBER UNS ───────── -->
-  <section class="bg-shell py-20 sm:py-28">
-    <div class="wrap grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-      <div data-reveal>
-        <img src="/images/truck.webp" width="1100" height="430" loading="lazy"
-             srcset="/images/truck-600.webp 600w, /images/truck.webp 1100w" sizes="(min-width:1024px) 46vw, 100vw"
-             alt="Firmenfahrzeug von Schwimmbadtechnik Dettloff" class="w-full rounded-3xl object-cover shadow-lift" />
+  <!-- ───────── ÜBER UNS / seit 1994 (truck bleed links) ───────── -->
+  <section class="relative py-24 sm:py-32">
+    <div class="wrap grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-20">
+      <div data-reveal class="relative overflow-hidden rounded-3xl shadow-lift">
+        <img src="/images/truck.webp" srcset="/images/truck-600.webp 600w, /images/truck.webp 1100w" sizes="(min-width:1024px) 52vw, 100vw"
+             width="1100" height="430" loading="lazy" data-img alt="Firmenfahrzeug von Schwimmbadtechnik Dettloff" class="aspect-[16/9] w-full object-cover lg:aspect-[4/3]" />
       </div>
-      <div data-reveal style="--reveal-delay:100ms">
-        <h2 class="text-3xl font-semibold leading-[1.12] tracking-tightish sm:text-4xl">
-          Ein Handwerksbetrieb, der seinen Namen kennt.
+      <div data-reveal>
+        <h2 class="font-display text-4xl font-semibold leading-[1.08] tracking-tighter sm:text-5xl">
+          Ein Handwerksbetrieb, der seinen <span class="italic text-aqua-ink">Namen kennt.</span>
         </h2>
-        <p class="mt-5 text-lg leading-relaxed text-ink-soft">
+        <p class="mt-6 text-lg leading-relaxed text-ink-soft">
           Seit {site.founded} steht Schwimmbadtechnik Dettloff für Pools, die halten,
           was sie versprechen. Inhabergeführt von {site.owner}, zu Hause in
           {' '}{site.address.city} {site.address.district} – {site.seatShort}.
         </p>
-        <p class="mt-4 text-lg leading-relaxed text-ink-soft">
-          Wir bauen in {site.region}: persönlich, ehrlich und mit der Erfahrung aus
-          mehr als drei Jahrzehnten Poolbau.
-        </p>
-        <div class="mt-7 flex items-center gap-4 rounded-2xl border border-line bg-white p-5 shadow-soft">
-          <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-aqua text-white">
-            <Icon name="Award" size={24} />
-          </span>
-          <p class="font-medium text-ink">„Qualität nur vom Fachmann" – seit 1994 unser Anspruch.</p>
+        <div class="mt-7 inline-flex items-center gap-4 rounded-2xl border border-line bg-surface/70 p-5 shadow-soft backdrop-blur">
+          <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border-l-4 border-red bg-aqua text-white"><Icon name="Award" size={24} /></span>
+          <p class="font-medium text-ink">„Qualität nur vom Fachmann" – seit {site.founded} unser Anspruch.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <CtaBand />
-
-  <!-- ───────── KONTAKT + ANFAHRT ───────── -->
-  <section id="kontakt" class="bg-paper py-20 sm:py-28">
+  <!-- ───────── KONTAKT (ruhiger Abschluss) ───────── -->
+  <section id="kontakt" class="relative py-24 sm:py-32">
     <div class="wrap">
-      <SectionHeading eyebrow="Kontakt" title="Lassen Sie uns über Ihren Garten sprechen"
-        intro={`Rufen Sie an, schreiben Sie kurz – oder kommen Sie vorbei. ${site.availability}.`} />
+      <div class="max-w-2xl" data-reveal>
+        <p class="eyebrow mb-3">Kontakt</p>
+        <h2 data-split class="font-display text-4xl font-semibold leading-[1.08] tracking-tighter sm:text-5xl">
+          Lassen Sie uns über Ihren Garten sprechen.
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed text-ink-soft">Rufen Sie an, schreiben Sie kurz – oder kommen Sie vorbei. {site.availability}.</p>
+      </div>
       <div class="mt-10 grid gap-8 lg:grid-cols-2 lg:gap-12">
         <div class="flex flex-col gap-4">
           <ContactTiles />
           <div class="card flex items-start gap-4 p-5" data-reveal>
-            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-aqua-tint text-aqua-ink">
-              <Icon name="MapPin" size={20} />
-            </span>
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-aqua-tint text-aqua-ink"><Icon name="MapPin" size={20} /></span>
             <div>
               <p class="text-sm text-muted">Adresse</p>
               <p class="mt-0.5 font-semibold text-ink">{site.address.line}</p>

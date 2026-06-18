@@ -167,3 +167,47 @@ html.lenis, html.lenis body { height: auto; }
 
 /* SplitText: Zeilen maskieren, damit Wörter sauber „hochfahren" */
 .split-line { overflow: hidden; padding-bottom: 0.08em; }
+
+/* ───────── Flow: kontinuierliche Leinwand statt harter Abschnitts-Bänder ───────── */
+/* Eine ruhige Aqua-Lichtleinwand liegt fix hinter ALLEM → die Sektionen sind
+   transparent und gehen ineinander über, keine sichtbaren „Kästen". */
+.page-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -50;
+  pointer-events: none;
+  background:
+    radial-gradient(55rem 55rem at 84% -8%, rgb(var(--rgb-aqua) / 0.13), transparent 60%),
+    radial-gradient(48rem 48rem at -12% 26%, rgb(var(--rgb-aqua) / 0.09), transparent 55%),
+    radial-gradient(62rem 62rem at 112% 64%, rgb(var(--rgb-aqua) / 0.08), transparent 60%),
+    radial-gradient(44rem 44rem at 46% 116%, rgb(var(--rgb-aqua) / 0.06), transparent 60%);
+}
+/* dunkle „Tauch"-Zone: taucht weich aus der hellen Leinwand auf und wieder ab */
+.dark-flow {
+  position: relative;
+  color: rgb(255 255 255 / 0.82);
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    rgb(var(--rgb-dark)) 13%,
+    rgb(var(--rgb-dark-deep)) 50%,
+    rgb(var(--rgb-dark)) 87%,
+    transparent 100%
+  );
+}
+.dark-flow :where(h1, h2, h3) { color: #fff; }
+
+/* Footer taucht aus der Leinwand ins Dunkel ab (kein harter Schnitt) */
+.footer-flow { background: linear-gradient(to bottom, transparent, rgb(var(--rgb-dark)) 22%); }
+
+/* CtaBand taucht oben weich ein, bleibt unten dunkel → schließt nahtlos an den Footer an */
+.cta-flow { background: linear-gradient(to bottom, transparent, rgb(var(--rgb-dark)) 16%, rgb(var(--rgb-dark-deep))); }
+
+/* horizontale Projekt-Galerie: standardmäßig nativ scrollbar (Swipe / reduced-motion /
+   No-JS funktioniert überall); auf Desktop+Motion übernimmt GSAP (overflow→visible, pin). */
+.hstrip { display: flex; gap: 1.5rem; overflow-x: auto; scrollbar-width: none; }
+.hstrip::-webkit-scrollbar { height: 0; }
+@media (max-width: 1023px) {
+  .hstrip { scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 0.75rem; }
+  .hstrip > * { scroll-snap-align: center; }
+}
