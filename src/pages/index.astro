@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import HorizontalProjects from '../components/HorizontalProjects.astro';
+import BuildStory from '../components/BuildStory.astro';
 import ContactTiles from '../components/ContactTiles.astro';
 import MapBlock from '../components/MapBlock.astro';
 import { site, copy } from '../data/site';
@@ -16,7 +17,6 @@ const typen = [
   { icon: 'ThermometerSun', name: 'Thermoplane', note: 'Hält die Wärme' },
   { icon: 'Layers', name: 'Lamellen', note: 'Stilvoll & langlebig' },
 ];
-const bauImgs = ['bau-03', 'bau-02', 'bau-05', 'bau-08'];
 ---
 <Layout>
   <!-- ───────── HERO (voll, schmilzt unten in die Leinwand) ───────── -->
@@ -109,53 +109,31 @@ const bauImgs = ['bau-03', 'bau-02', 'bau-05', 'bau-08'];
   <!-- ───────── PROJEKTE: horizontaler Durchlauf ───────── -->
   <HorizontalProjects />
 
-  <!-- ───────── DUNKLE TAUCH-ZONE: Bauphase + Abdeckungen ───────── -->
-  <section class="dark-flow relative">
-    <div class="wrap py-32 sm:py-44">
-      <!-- so entsteht Ihr Pool -->
-      <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-        <div data-reveal>
-          <p class="eyebrow mb-3 text-aqua">So entsteht Ihr Pool</p>
-          <h2 data-split class="font-display text-4xl font-semibold leading-[1.06] tracking-tighter sm:text-5xl">
-            Vom ersten Spatenstich bis zum ersten Sprung ins Wasser.
-          </h2>
-          <p class="mt-6 text-lg leading-relaxed text-white/75">{copy.bauphase}</p>
-          <div class="mt-8 flex flex-wrap gap-x-7 gap-y-3 text-white/85">
-            {[['Ruler', 'Planung'], ['Shovel', 'Aushub'], ['HardHat', 'Bau'], ['WavesLadder', 'Wasser marsch']].map(([icon, label]) => (
-              <span class="inline-flex items-center gap-2"><Icon name={icon} size={18} class="text-aqua" /> {label}</span>
-            ))}
-          </div>
-          <a href="/bauphase" class="btn btn-on-dark mt-9 inline-flex">Einblicke in die Bauphase <Icon name="ArrowRight" size={18} /></a>
-        </div>
-        <div class="grid grid-cols-2 gap-4" data-reveal>
-          {bauImgs.map((b, i) => (
-            <div class:list={['overflow-hidden rounded-2xl shadow-lift', i % 2 ? 'mt-8' : '']}>
-              <img src={`/images/bauphase/${b}.webp`} alt="Pool-Bauphase – Schwimmbadtechnik Dettloff" loading="lazy" width="1100" height="800" data-img class="aspect-[4/3] w-full object-cover" />
+  <!-- ───────── BAUPHASE: Scrollytelling ───────── -->
+  <BuildStory />
+
+  <!-- ───────── POOL-ABDECKUNGEN ───────── -->
+  <section class="relative py-24 sm:py-32">
+    <div class="wrap grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+      <div class="order-2 overflow-hidden rounded-3xl shadow-lift lg:order-1" data-reveal>
+        <img src="/images/abdeckungen/abdeckung-07.webp" alt="Beleuchtete Pool-Überdachung am Abend von Schwimmbadtechnik Dettloff" loading="lazy" width="1100" height="800" data-img class="aspect-[4/3] w-full object-cover" />
+      </div>
+      <div class="order-1 lg:order-2" data-reveal>
+        <p class="eyebrow mb-3">Pool-Abdeckungen & Überdachungen</p>
+        <h2 class="font-display text-4xl font-semibold leading-[1.06] tracking-tighter sm:text-5xl">
+          Und dann gut geschützt – <span class="italic text-aqua-ink">bei jedem Wetter.</span>
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-ink-soft">{copy.abdeckungen}</p>
+        <div class="mt-8 grid gap-3 sm:grid-cols-3">
+          {typen.map((t) => (
+            <div class="rounded-2xl border border-line bg-surface/70 p-4 shadow-soft backdrop-blur">
+              <Icon name={t.icon} size={22} class="text-aqua-ink" />
+              <p class="mt-2 font-semibold text-ink">{t.name}</p>
+              <p class="text-sm text-muted">{t.note}</p>
             </div>
           ))}
         </div>
-      </div>
-
-      <!-- und gut geschützt -->
-      <div class="mt-28 grid items-center gap-12 lg:grid-cols-2 lg:gap-20 sm:mt-36">
-        <div class="order-2 overflow-hidden rounded-3xl shadow-lift lg:order-1" data-reveal>
-          <img src="/images/abdeckungen/abdeckung-07.webp" alt="Beleuchtete Pool-Überdachung am Abend" loading="lazy" width="1100" height="800" data-img class="aspect-[4/3] w-full object-cover" />
-        </div>
-        <div class="order-1 lg:order-2" data-reveal>
-          <p class="eyebrow mb-3 text-aqua">Pool-Abdeckungen & Überdachungen</p>
-          <h2 class="font-display text-4xl font-semibold leading-[1.06] tracking-tighter sm:text-5xl">Und dann gut geschützt – bei jedem Wetter.</h2>
-          <p class="mt-6 text-lg leading-relaxed text-white/75">{copy.abdeckungen}</p>
-          <div class="mt-8 grid gap-3 sm:grid-cols-3">
-            {typen.map((t) => (
-              <div class="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10 backdrop-blur">
-                <Icon name={t.icon} size={22} class="text-aqua" />
-                <p class="mt-2 font-semibold text-white">{t.name}</p>
-                <p class="text-sm text-white/60">{t.note}</p>
-              </div>
-            ))}
-          </div>
-          <a href="/pool-abdeckungen" class="btn btn-light mt-9 inline-flex">Zu den Pool-Abdeckungen <Icon name="ArrowRight" size={18} /></a>
-        </div>
+        <a href="/pool-abdeckungen" class="btn btn-primary mt-9 inline-flex">Zu den Pool-Abdeckungen <Icon name="ArrowRight" size={18} /></a>
       </div>
     </div>
   </section>

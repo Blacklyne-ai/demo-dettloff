@@ -1,0 +1,57 @@
+---
+import Icon from './Icon.astro';
+// Scrollytelling: sticky Medienpanel (CSS sticky = robuster Pin) das pro Schritt überblendet.
+// Mobil / reduced-motion: saubere vertikale Abfolge (inline-Bilder), kein Sticky/Scrub.
+const phases = [
+  { n: '01', title: 'Planung', text: 'Wir schauen uns Ihren Garten an und planen Form, Lage und Technik – abgestimmt auf Sie.', img: '/images/bauphase/bau-03.webp' },
+  { n: '02', title: 'Aushub', text: 'Die Grube entsteht: sauber ausgehoben und vorbereitet für das Becken.', img: '/images/bauphase/bau-02.webp' },
+  { n: '03', title: 'Bau', text: 'Becken, Technik und Anschlüsse – Schritt für Schritt, mit festen Qualitätsstandards.', img: '/images/bauphase/bau-01.webp' },
+  { n: '04', title: 'Wasser marsch', text: 'Umrandung, Feinschliff, Befüllung – aus dem Garten wird eine Wohlfühloase.', img: '/images/projekte/projekt-05.webp' },
+];
+---
+<section data-buildstory class="relative bg-dark text-white">
+  <div class="pointer-events-none absolute right-0 top-1/3 -z-0 h-80 w-80 rounded-full bg-aqua/10 blur-[100px]"></div>
+
+  <div class="wrap relative pt-24 sm:pt-32">
+    <p class="eyebrow mb-4 text-aqua">So entsteht Ihr Pool</p>
+    <h2 data-split class="max-w-3xl font-display text-4xl font-semibold leading-[1.04] tracking-tighter sm:text-5xl md:text-6xl">
+      Vom ersten Spatenstich bis zum <span class="italic text-aqua">ersten Sprung ins Wasser.</span>
+    </h2>
+  </div>
+
+  <div class="wrap relative mt-12 lg:grid lg:grid-cols-[1fr_1.05fr] lg:gap-20">
+    <!-- Sticky-Medienpanel (Desktop) -->
+    <div class="bs-sticky">
+      <div class="sticky top-24 aspect-[4/5] overflow-hidden rounded-3xl shadow-lift ring-1 ring-white/10">
+        {phases.map((ph, i) => (
+          <img data-bs-img data-i={i} src={ph.img} alt={`Bauphase: ${ph.title}`} loading="lazy" width="1100" height="1375"
+               class:list={['absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out', i === 0 ? 'opacity-100' : 'opacity-0']} />
+        ))}
+        <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-dark/70 via-transparent to-dark/20"></div>
+        <div class="absolute left-6 top-6 flex gap-2">
+          {phases.map((_, i) => (
+            <span data-bs-dot data-i={i} class:list={['h-1.5 rounded-full transition-all duration-500', i === 0 ? 'w-9 bg-aqua' : 'w-1.5 bg-white/30']}></span>
+          ))}
+        </div>
+        <div data-bs-caption class="absolute bottom-6 left-6 font-display text-2xl font-semibold">Planung</div>
+      </div>
+    </div>
+
+    <!-- Scrollende Schritte -->
+    <div>
+      {phases.map((ph, i) => (
+        <div data-bs-step data-i={i} class="flex min-h-[55vh] flex-col justify-center border-t border-white/10 py-10 first:border-t-0 lg:min-h-screen lg:border-t-0">
+          <span class="font-display text-6xl font-semibold leading-none text-aqua/70 sm:text-7xl">{ph.n}</span>
+          <h3 class="mt-4 font-display text-3xl font-semibold sm:text-4xl">{ph.title}</h3>
+          <p class="mt-4 max-w-md text-lg leading-relaxed text-white/70">{ph.text}</p>
+          <img src={ph.img} alt={`Bauphase: ${ph.title}`} loading="lazy" width="1100" height="800"
+               class="bs-inline-img mt-7 aspect-[4/3] w-full rounded-2xl object-cover shadow-lift ring-1 ring-white/10" />
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="wrap relative pb-24 pt-4 sm:pb-32">
+    <a href="/bauphase" class="btn btn-on-dark inline-flex">Alle Einblicke in die Bauphase <Icon name="ArrowRight" size={18} /></a>
+  </div>
+</section>

@@ -196,6 +196,27 @@ const ogImage = new URL(image, site.url).href;
           });
         }
 
+        // BuildStory-Scrollytelling: sticky Panel, pro Schritt das Bild überblenden (nur Desktop)
+        const bsImgs = gsap.utils.toArray('[data-bs-img]');
+        if (bsImgs.length && window.matchMedia('(min-width: 1024px)').matches) {
+          const bsDots = gsap.utils.toArray('[data-bs-dot]');
+          const bsCap = document.querySelector('[data-bs-caption]');
+          const steps = gsap.utils.toArray('[data-bs-step]');
+          const titles = steps.map((s) => (s.querySelector('h3')?.textContent || ''));
+          const setActive = (i) => {
+            bsImgs.forEach((im, j) => gsap.to(im, { opacity: j === i ? 1 : 0, duration: 0.6, overwrite: true }));
+            bsDots.forEach((d, j) => {
+              d.style.width = j === i ? '2.25rem' : '0.375rem';
+              d.classList.toggle('bg-aqua', j === i);
+              d.classList.toggle('bg-white/30', j !== i);
+            });
+            if (bsCap) bsCap.textContent = titles[i] || '';
+          };
+          steps.forEach((step, i) => {
+            ScrollTrigger.create({ trigger: step, start: 'top center', end: 'bottom center', onEnter: () => setActive(i), onEnterBack: () => setActive(i) });
+          });
+        }
+
         window.addEventListener('load', () => ScrollTrigger.refresh());
       }
     </script>

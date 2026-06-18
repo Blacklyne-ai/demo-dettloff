@@ -211,6 +211,18 @@ html.lenis, html.lenis body { height: auto; }
    No-JS funktioniert überall); auf Desktop+Motion übernimmt GSAP (overflow→visible, pin). */
 .hstrip { display: flex; gap: 1.5rem; overflow-x: auto; scrollbar-width: none; }
 .hstrip::-webkit-scrollbar { height: 0; }
+
+/* BuildStory: Sticky-Medienpanel (Desktop) ↔ Inline-Bilder (Mobil / reduced-motion) */
+.bs-sticky { display: none; }
+.bs-inline-img { display: block; }
+@media (min-width: 1024px) {
+  .bs-sticky { display: block; }
+  .bs-inline-img { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bs-sticky { display: none !important; }
+  .bs-inline-img { display: block !important; }
+}
 @media (max-width: 1023px) {
   .hstrip { scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 0.75rem; }
   .hstrip > * { scroll-snap-align: center; }
