@@ -5,11 +5,13 @@ interface Props {
   titleHtml?: string;
   intro?: string;
 }
+import ReviewBadge from './ReviewBadge.astro';
 const { eyebrow, title, titleHtml, intro } = Astro.props;
 ---
 <section class="relative overflow-hidden border-b border-line bg-gradient-to-b from-mist to-paper">
   <div class="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-aqua/10 blur-3xl"></div>
   <div class="wrap relative pb-14 pt-32 sm:pb-20 sm:pt-36">
+    <div data-hero class="mb-5"><ReviewBadge variant="bar" /></div>
     {eyebrow && <p data-hero class="eyebrow mb-3">{eyebrow}</p>}
     {titleHtml ? (
       <h1 data-hero-title class="max-w-3xl font-display text-4xl font-semibold leading-[1.08] tracking-tighter sm:text-5xl" set:html={titleHtml} />

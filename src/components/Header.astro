@@ -1,71 +1,51 @@
 ---
 import { nav, site } from '../data/site';
 import Icon from './Icon.astro';
-import ReviewBadge from './ReviewBadge.astro';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) =>
   href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
 ---
-<header class="site-header sticky top-0 z-50 border-b border-line/80 bg-white/80 backdrop-blur-md">
-  <!-- Glas-Trust-/Bewertungsleiste (Desktop) -->
-  <div class="hidden border-b border-line/50 bg-gradient-to-r from-aqua-tint/70 via-white/45 to-white/25 backdrop-blur lg:block">
-    <div class="wrap flex h-9 items-center justify-between">
-      <ReviewBadge variant="bar" />
-      <div class="flex items-center gap-4 text-[0.82rem] text-ink-soft">
-        <span class="inline-flex items-center gap-1.5"><Icon name="Clock" size={14} class="text-aqua-ink" /> {site.availability}</span>
-        <span class="text-line">·</span>
-        <a href={`tel:${site.phone.tel}`} class="inline-flex items-center gap-1.5 font-medium text-ink transition-colors hover:text-aqua-ink"><Icon name="Phone" size={14} /> {site.phone.display}</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="wrap flex items-center justify-between gap-4 py-3">
+<!-- Immer schwebende Pill (kein Full-Width-Balken) -->
+<div class="pointer-events-none fixed inset-x-0 top-3 z-50 px-3 sm:top-4 sm:px-4">
+  <div class="site-pill pointer-events-auto mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-pill border border-white/60 bg-white/80 py-2 pl-4 pr-2 shadow-lift backdrop-blur-md transition-all duration-300 sm:py-2.5 sm:pl-5 sm:pr-2.5">
     <a href="/" class="flex shrink-0 items-center" aria-label={`${site.name} – Startseite`}>
-      <img src="/logo.png" alt={`${site.name} – ${site.claim}`} width="462" height="107"
-           class="h-8 w-auto sm:h-9" />
+      <img src="/logo.png" alt={`${site.name} – ${site.claim}`} width="462" height="107" class="h-7 w-auto sm:h-8" />
     </a>
 
     <nav class="hidden items-center gap-0.5 lg:flex" aria-label="Hauptnavigation">
       {nav.map((item) => (
-        <a
-          href={item.href}
-          aria-current={isActive(item.href) ? 'page' : undefined}
-          class:list={['nav-link', isActive(item.href) ? 'text-aqua-ink' : 'text-ink-soft hover:text-ink']}
-        >
+        <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}
+           class:list={['nav-link', isActive(item.href) ? 'text-aqua-ink' : 'text-ink-soft hover:text-ink']}>
           {item.label}
         </a>
       ))}
     </nav>
 
-    <div class="hidden items-center gap-3 lg:flex">
+    <div class="hidden items-center gap-2 lg:flex">
+      <a href={`tel:${site.phone.tel}`} class="grid h-10 w-10 place-items-center rounded-full text-ink transition-colors hover:bg-mist hover:text-aqua-ink" aria-label={`Anrufen: ${site.phone.display}`}>
+        <Icon name="Phone" size={18} />
+      </a>
       <a href="/kontakt" class="btn btn-primary inline-flex">Beratung anfragen</a>
     </div>
 
     <button id="navToggle" type="button"
-            class="-mr-1 inline-flex items-center justify-center rounded-xl p-2 text-ink transition-colors hover:bg-mist lg:hidden"
+            class="inline-flex items-center justify-center rounded-full p-2.5 text-ink transition-colors hover:bg-mist lg:hidden"
             aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileNav">
-      <span data-menu-icon="open"><Icon name="Menu" size={26} /></span>
-      <span data-menu-icon="close" class="hidden"><Icon name="X" size={26} /></span>
+      <span data-menu-icon="open"><Icon name="Menu" size={24} /></span>
+      <span data-menu-icon="close" class="hidden"><Icon name="X" size={24} /></span>
     </button>
   </div>
 
-  <!-- Mobile-Panel -->
-  <div id="mobileNav" class="hidden border-t border-line bg-white/95 backdrop-blur lg:hidden">
-    <nav class="wrap flex flex-col py-3" aria-label="Mobile Navigation">
-      <div class="mb-2 self-start"><ReviewBadge variant="bar" /></div>
+  <!-- Mobile-Panel: schwebende Karte unter der Pill -->
+  <div id="mobileNav" class="pointer-events-auto mx-auto mt-2 hidden max-w-6xl overflow-hidden rounded-3xl border border-line bg-white/95 shadow-lift backdrop-blur lg:hidden">
+    <nav class="flex flex-col p-3" aria-label="Mobile Navigation">
       {nav.map((item) => (
-        <a
-          href={item.href}
-          aria-current={isActive(item.href) ? 'page' : undefined}
-          class:list={[
-            'rounded-xl px-3 py-2.5 text-base font-medium transition-colors',
-            isActive(item.href) ? 'bg-aqua-tint text-aqua-ink' : 'text-ink hover:bg-mist',
-          ]}
-        >
+        <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}
+           class:list={['rounded-xl px-3 py-2.5 text-base font-medium transition-colors', isActive(item.href) ? 'bg-aqua-tint text-aqua-ink' : 'text-ink hover:bg-mist']}>
           {item.label}
         </a>
       ))}
-      <div class="mt-3 flex flex-col gap-2 border-t border-line pt-3">
+      <div class="mt-2 flex flex-col gap-2 border-t border-line pt-3">
         <a href={`tel:${site.phone.tel}`} class="flex items-center gap-2 px-3 py-2 font-semibold text-ink">
           <Icon name="Phone" size={18} /> {site.phone.display}
         </a>
@@ -73,16 +53,16 @@ const isActive = (href: string) =>
       </div>
     </nav>
   </div>
-</header>
+</div>
 
 <script>
-  // Header-Tiefenschatten beim Scrollen
-  const header = document.querySelector('.site-header');
-  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  // Pill verdichtet sich beim Scrollen leicht
+  const pill = document.querySelector('.site-pill');
+  const onScroll = () => pill?.classList.toggle('is-scrolled', window.scrollY > 12);
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // Mobile-Menü öffnen/schließen (+ Icon-Wechsel)
+  // Mobile-Menü
   const btn = document.getElementById('navToggle');
   const panel = document.getElementById('mobileNav');
   const iOpen = btn?.querySelector('[data-menu-icon="open"]');

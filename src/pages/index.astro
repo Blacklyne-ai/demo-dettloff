@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import HorizontalProjects from '../components/HorizontalProjects.astro';
 import BuildStory from '../components/BuildStory.astro';
+import ReviewBadge from '../components/ReviewBadge.astro';
 import ContactTiles from '../components/ContactTiles.astro';
 import MapBlock from '../components/MapBlock.astro';
 import { site, copy } from '../data/site';
@@ -42,9 +43,7 @@ const typen = [
     <div class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-paper to-transparent sm:h-48"></div>
 
     <div data-hero-content class="wrap pb-20 pt-32 sm:pb-28">
-      <p data-hero class="mb-5 inline-flex items-center gap-2 rounded-pill bg-white/15 px-4 py-1.5 text-sm font-medium text-white ring-1 ring-white/25 backdrop-blur-sm">
-        <Icon name="Droplet" size={15} /> Maßgeschneiderter Poolbau · Bestensee bei Berlin
-      </p>
+      <div data-hero class="mb-6"><ReviewBadge variant="hero" /></div>
       <h1 data-hero-split class="max-w-3xl font-display text-5xl font-semibold leading-[1.02] tracking-tighter text-white [text-shadow:0_2px_24px_rgb(5_26_35/0.45)] sm:text-6xl md:text-7xl">
         Ihr eigener Pool – <em class="italic">geplant, gebaut, gepflegt.</em>
       </h1>

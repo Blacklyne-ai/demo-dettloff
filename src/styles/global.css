@@ -110,9 +110,8 @@
   /* einheitlicher Sektions-Rhythmus */
   .section-y { @apply py-20 sm:py-28; }
 
-  /* Header: dezenter Tiefen-Schatten erst beim Scrollen */
-  .site-header { @apply transition-shadow duration-300; }
-  .site-header.is-scrolled { @apply shadow-[0_1px_0_rgb(215_229_236),0_10px_30px_-18px_rgb(8_37_48/0.25)]; }
+  /* Floating-Pill: beim Scrollen etwas dichter (nur Farbe/Schatten, kein Layout) */
+  .site-pill.is-scrolled { @apply border-line/70 bg-white/90; }
 
   /* Nav-Link mit animiertem Unterstrich (Wasserlinie) */
   .nav-link { @apply relative rounded-pill px-3.5 py-2 text-[0.95rem] font-medium transition-colors duration-200; }
