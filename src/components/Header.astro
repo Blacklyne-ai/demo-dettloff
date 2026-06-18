@@ -5,22 +5,19 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) =>
   href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
 ---
-<header class="sticky top-0 z-50 border-b border-line/80 bg-white/80 backdrop-blur-md">
+<header class="site-header sticky top-0 z-50 border-b border-line/80 bg-white/80 backdrop-blur-md">
   <div class="wrap flex items-center justify-between gap-4 py-3">
     <a href="/" class="flex shrink-0 items-center" aria-label={`${site.name} – Startseite`}>
       <img src="/logo.png" alt={`${site.name} – ${site.claim}`} width="462" height="107"
            class="h-8 w-auto sm:h-9" />
     </a>
 
-    <nav class="hidden items-center gap-1 lg:flex" aria-label="Hauptnavigation">
+    <nav class="hidden items-center gap-0.5 lg:flex" aria-label="Hauptnavigation">
       {nav.map((item) => (
         <a
           href={item.href}
           aria-current={isActive(item.href) ? 'page' : undefined}
-          class:list={[
-            'rounded-pill px-3.5 py-2 text-[0.95rem] font-medium transition-colors',
-            isActive(item.href) ? 'text-aqua-ink' : 'text-ink-soft hover:text-ink',
-          ]}
+          class:list={['nav-link', isActive(item.href) ? 'text-aqua-ink' : 'text-ink-soft hover:text-ink']}
         >
           {item.label}
         </a>
@@ -28,7 +25,7 @@ const isActive = (href: string) =>
     </nav>
 
     <div class="hidden items-center gap-3 lg:flex">
-      <a href={`tel:${site.phone.tel}`} class="flex items-center gap-2 text-[0.95rem] font-semibold text-ink hover:text-aqua-ink">
+      <a href={`tel:${site.phone.tel}`} class="flex items-center gap-2 text-[0.95rem] font-semibold text-ink transition-colors hover:text-aqua-ink">
         <Icon name="Phone" size={17} />
         {site.phone.display}
       </a>
@@ -36,9 +33,10 @@ const isActive = (href: string) =>
     </div>
 
     <button id="navToggle" type="button"
-            class="inline-flex items-center justify-center rounded-xl p-2 text-ink lg:hidden"
+            class="-mr-1 inline-flex items-center justify-center rounded-xl p-2 text-ink transition-colors hover:bg-mist lg:hidden"
             aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileNav">
-      <Icon name="Menu" size={26} />
+      <span data-menu-icon="open"><Icon name="Menu" size={26} /></span>
+      <span data-menu-icon="close" class="hidden"><Icon name="X" size={26} /></span>
     </button>
   </div>
 
@@ -50,7 +48,7 @@ const isActive = (href: string) =>
           href={item.href}
           aria-current={isActive(item.href) ? 'page' : undefined}
           class:list={[
-            'rounded-xl px-3 py-2.5 text-base font-medium',
+            'rounded-xl px-3 py-2.5 text-base font-medium transition-colors',
             isActive(item.href) ? 'bg-aqua-tint text-aqua-ink' : 'text-ink hover:bg-mist',
           ]}
         >
@@ -68,11 +66,22 @@ const isActive = (href: string) =>
 </header>
 
 <script>
+  // Header-Tiefenschatten beim Scrollen
+  const header = document.querySelector('.site-header');
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Mobile-Menü öffnen/schließen (+ Icon-Wechsel)
   const btn = document.getElementById('navToggle');
   const panel = document.getElementById('mobileNav');
+  const iOpen = btn?.querySelector('[data-menu-icon="open"]');
+  const iClose = btn?.querySelector('[data-menu-icon="close"]');
   btn?.addEventListener('click', () => {
     const open = panel?.classList.toggle('hidden') === false;
     btn.setAttribute('aria-expanded', String(open));
     btn.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+    iOpen?.classList.toggle('hidden', open);
+    iClose?.classList.toggle('hidden', !open);
   });
 </script>

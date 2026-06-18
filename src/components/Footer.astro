@@ -3,7 +3,10 @@ import { nav, legalNav, site, mapsQuery } from '../data/site';
 import Icon from './Icon.astro';
 const year = 2026;
 ---
-<footer class="bg-dark text-white/80">
+<footer class="relative bg-dark text-white/80">
+  <!-- feine Marken-Linie (Türkis → Rot, Nicken an das 2-farbige Logo) -->
+  <div class="h-px w-full bg-gradient-to-r from-transparent via-aqua/60 to-red/50"></div>
+
   <div class="wrap grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-12">
     <!-- Brand -->
     <div class="lg:col-span-4">
@@ -14,6 +17,7 @@ const year = 2026;
         Maßgeschneiderte Swimmingpools seit {site.founded}. Planung, Bau, Wartung
         und Pool-Abdeckungen für {site.region}.
       </p>
+      <p class="mt-4 font-display text-lg italic text-white/90">„Qualität nur vom Fachmann."</p>
     </div>
 
     <!-- Navigation -->
@@ -21,7 +25,11 @@ const year = 2026;
       <h2 class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-aqua">Seiten</h2>
       <ul class="mt-4 space-y-2.5 text-[0.95rem]">
         {nav.map((item) => (
-          <li><a href={item.href} class="text-white/70 transition-colors hover:text-white">{item.label}</a></li>
+          <li>
+            <a href={item.href} class="group inline-flex items-center gap-2 text-white/70 transition-colors hover:text-white">
+              <span class="h-1.5 w-1.5 rounded-full bg-white/20 transition-colors group-hover:bg-aqua"></span>{item.label}
+            </a>
+          </li>
         ))}
       </ul>
     </nav>
@@ -60,6 +68,9 @@ const year = 2026;
         {legalNav.map((item) => (
           <a href={item.href} class="hover:text-white">{item.label}</a>
         ))}
+        <a href="#main" class="inline-flex items-center gap-1.5 hover:text-white">
+          Nach oben <Icon name="ChevronRight" size={14} class="-rotate-90" />
+        </a>
       </nav>
     </div>
   </div>

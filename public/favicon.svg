@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Schwimmbadtechnik Dettloff">
+  <defs>
+    <linearGradient id="aqua" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#00b5e4"/>
+      <stop offset="1" stop-color="#0092c2"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="58" fill="url(#aqua)"/>
+  <g fill="none" stroke="#ffffff" stroke-width="15" stroke-linecap="round">
+    <path d="M48 100 q25 -24 50 0 t50 0 t50 0"/>
+    <path d="M48 140 q25 -24 50 0 t50 0 t50 0"/>
+    <path d="M48 180 q25 -24 50 0 t50 0 t50 0"/>
+  </g>
+</svg>

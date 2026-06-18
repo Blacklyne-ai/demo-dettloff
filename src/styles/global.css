@@ -59,7 +59,8 @@
     overflow-x: clip; /* dekorative Blur-Blobs dürfen keinen H-Scroll erzeugen (clip bricht sticky nicht) */
   }
   h1, h2, h3, h4 {
-    @apply font-display text-ink;
+    @apply font-display;
+    color: inherit; /* erbt Kontextfarbe → dunkle Sektionen bekommen automatisch helle Headlines */
     font-optical-sizing: auto;
     letter-spacing: -0.018em;
     text-wrap: balance;
@@ -105,6 +106,27 @@
   }
 
   .wrap { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
+
+  /* einheitlicher Sektions-Rhythmus */
+  .section-y { @apply py-20 sm:py-28; }
+
+  /* Header: dezenter Tiefen-Schatten erst beim Scrollen */
+  .site-header { @apply transition-shadow duration-300; }
+  .site-header.is-scrolled { @apply shadow-[0_1px_0_rgb(215_229_236),0_10px_30px_-18px_rgb(8_37_48/0.25)]; }
+
+  /* Nav-Link mit animiertem Unterstrich (Wasserlinie) */
+  .nav-link { @apply relative rounded-pill px-3.5 py-2 text-[0.95rem] font-medium transition-colors duration-200; }
+  .nav-link::after {
+    content: ''; position: absolute; left: 0.95rem; right: 0.95rem; bottom: 0.32rem; height: 2px;
+    background: rgb(var(--rgb-aqua)); border-radius: 2px;
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-link:hover::after { transform: scaleX(1); }
+  .nav-link[aria-current='page']::after { transform: scaleX(1); }
+
+  /* editoriale Akzentlinie über/neben Headlines */
+  .accent-rule { @apply inline-block h-1 w-10 rounded-full bg-aqua align-middle; }
 
   .card {
     @apply rounded-3xl border border-line bg-surface shadow-soft transition-all duration-300;

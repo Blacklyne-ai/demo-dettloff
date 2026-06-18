@@ -1,5 +1,6 @@
 ---
 import gallery from '../data/gallery.json';
+import Icon from './Icon.astro';
 interface Props {
   set: 'projekte' | 'abdeckungen' | 'bauphase';
   limit?: number;
@@ -23,7 +24,10 @@ if (limit) items = items.slice(0, limit);
           decoding="async"
           class="h-auto w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
         />
-        <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-dark/15 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+        <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-dark/25 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+        <span class="pointer-events-none absolute right-3 top-3 grid h-9 w-9 translate-y-1 place-items-center rounded-full bg-white/90 text-aqua-ink opacity-0 shadow-soft backdrop-blur transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+          <Icon name="Maximize2" size={16} />
+        </span>
       </button>
     </figure>
   ))}
