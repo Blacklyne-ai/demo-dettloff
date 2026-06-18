@@ -11,17 +11,10 @@
   font-display: optional;
 }
 @font-face {
-  font-family: 'Fraunces Variable';
-  src: url('/fonts/fraunces.woff2') format('woff2');
-  font-weight: 300 700;
+  font-family: 'Bricolage Grotesque Variable';
+  src: url('/fonts/bricolage.woff2') format('woff2');
+  font-weight: 300 800;
   font-style: normal;
-  font-display: optional;
-}
-@font-face {
-  font-family: 'Fraunces Variable';
-  src: url('/fonts/fraunces-italic.woff2') format('woff2');
-  font-weight: 300 700;
-  font-style: italic;
   font-display: optional;
 }
 
@@ -62,9 +55,11 @@
     @apply font-display;
     color: inherit; /* erbt Kontextfarbe → dunkle Sektionen bekommen automatisch helle Headlines */
     font-optical-sizing: auto;
-    letter-spacing: -0.018em;
+    letter-spacing: -0.025em; /* Bricolage wirkt modern, wenn eng gesetzt */
     text-wrap: balance;
   }
+  /* Moderne Betonung: kein Vintage-Italic mehr – Akzent über Farbe (Markup: text-aqua / text-aqua-ink) */
+  :is(h1, h2, h3) em, :is(h1, h2, h3) .italic { font-style: normal; }
   p { text-wrap: pretty; }
   ::selection { background: rgb(var(--rgb-aqua) / 0.22); color: rgb(var(--rgb-ink)); }
   :focus-visible {

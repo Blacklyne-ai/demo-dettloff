@@ -38,7 +38,7 @@ export default {
       },
       fontFamily: {
         sans: ['"Manrope Variable"', 'Manrope', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
-        display: ['"Fraunces Variable"', 'Fraunces', 'Georgia', 'Cambria', 'serif'],
+        display: ['"Bricolage Grotesque Variable"', '"Bricolage Grotesque"', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
       },
       borderRadius: { pill: '999px', '2xl': '1.125rem', '3xl': '1.5rem', '4xl': '2rem' },
       maxWidth: { '7xl': '80rem', '8xl': '88rem' },
