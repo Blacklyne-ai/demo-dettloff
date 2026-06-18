@@ -20,8 +20,8 @@ const bauImgs = ['bau-03', 'bau-02', 'bau-05', 'bau-08'];
 ---
 <Layout>
   <!-- ───────── HERO (voll, schmilzt unten in die Leinwand) ───────── -->
-  <section class="relative isolate flex min-h-[100svh] items-end overflow-hidden">
-    <div data-parallax class="absolute inset-x-0 top-0 -z-10 h-[118%] w-full">
+  <section data-hero-scrub class="relative isolate flex h-[100svh] items-end overflow-hidden">
+    <div class="absolute inset-0 -z-10">
       <img
         src="/images/hero/heroA-pool-1280.webp"
         srcset="/images/hero/heroA-pool-800.webp 800w, /images/hero/heroA-pool-1280.webp 1280w, /images/hero/heroA-pool.webp 1920w"
@@ -30,9 +30,10 @@ const bauImgs = ['bau-03', 'bau-02', 'bau-05', 'bau-08'];
         fetchpriority="high"
         class="h-full w-full object-cover"
       />
-      {/* TODO Operator: Clip ablegen unter public/videos/hero-pool.webm (ruhiges türkises Wasser,
-          ~6–10 s nahtloser Loop, < ~3 MB). Lädt NUR auf Desktop; fehlt die Datei, bleibt das Standbild. */}
-      <video data-hero-video data-src="/videos/hero-pool.webm" muted loop playsinline preload="none"
+      {/* TODO Operator: Clip ablegen unter public/videos/hero-pool.webm – für SCROLL-SCRUBBING
+          keyframe-dicht encoden (ffmpeg -g 1), ~4–8 s, < ~3 MB. Lädt NUR auf Desktop; fehlt die
+          Datei, bleibt das Standbild und der Hero wird NICHT gepinnt. */}
+      <video data-hero-video data-src="/videos/hero-pool.webm" muted playsinline preload="none"
              aria-hidden="true" class="absolute inset-0 h-full w-full object-cover"></video>
     </div>
     <div class="absolute inset-0 -z-10 bg-gradient-to-t from-dark-deep/92 via-dark/45 to-dark/15"></div>
@@ -40,7 +41,7 @@ const bauImgs = ['bau-03', 'bau-02', 'bau-05', 'bau-08'];
     <!-- Übergang: Foto schmilzt in die helle Leinwand -->
     <div class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-paper to-transparent sm:h-48"></div>
 
-    <div class="wrap pb-20 pt-32 sm:pb-28">
+    <div data-hero-content class="wrap pb-20 pt-32 sm:pb-28">
       <p data-hero class="mb-5 inline-flex items-center gap-2 rounded-pill bg-white/15 px-4 py-1.5 text-sm font-medium text-white ring-1 ring-white/25 backdrop-blur-sm">
         <Icon name="Droplet" size={15} /> Maßgeschneiderter Poolbau · Bestensee bei Berlin
       </p>
